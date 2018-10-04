@@ -1,0 +1,20 @@
+button {
+    position: absolute;
+    left: 50%;
+    margin-left: -250px;
+    top: 520px;
+    background-color: #000000; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 20px;
+}
+
+canvas {
+    position: absolute;
+    left:50%;
+    margin-left: -250px;
+}

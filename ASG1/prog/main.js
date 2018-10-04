@@ -3,14 +3,16 @@
  */
 
 
-var canvas, gl, position, size
+var canvas, gl
+var position, size, color
+var button_clear
 function main() {
 	canvas = document.getElementsByTagName("canvas")[0]
 	var width = window.innerWidth
-	canvas.width = 600
-	canvas.height = 400
-	canvas.setAttribute('style', "position: absolute;  \
-							left:50%; margin-left: -300px; top:10%");
+	canvas.width = 500
+	canvas.height = 500
+	button_clear = document.getElementsByTagName("button")[0]
+
 
 	gl = getWebGLContext(canvas)
 	if(!gl) {
@@ -36,10 +38,17 @@ function main() {
 	}
 	gl.vertexAttrib1f(size, 10.);
 
+	color = gl.getUniformLocation(gl.program, 'color');
+	if(color < 0) {
+		console.log('Fail to get color attribute.')
+		return;
+	}
+	/*
+	gl.fragAttrib3f(color, 10.);
+*/
 	initEventHandelers();
 
 	gl.clearColor(0., 0., 0., 1.)
 	gl.clear(gl.COLOR_BUFFER_BIT)
-	gl.drawArrays(gl.Points, 0, 1)
-
+	render()
 }

@@ -12,5 +12,5 @@ var FSHADER =
 'precision mediump float;' +
 'uniform vec4 color;' +
 'void main() {\n' +
-'   gl_FragColor = vec4(1., 0., 0., 1.);\n' +
+'   gl_FragColor = color;\n' +
 '}\n';
