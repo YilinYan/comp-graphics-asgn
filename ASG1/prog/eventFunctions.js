@@ -81,6 +81,7 @@ function clearCanvas() {
     gl.clear(gl.COLOR_BUFFER_BIT)
     points = []
     colors = []
+    sizes = []
 }
 
 /**
