@@ -4,9 +4,7 @@
  * within your HTML document.
  */
 function initEventHandelers() {
-  //
-  // YOUR CODE HERE
-  //
+  canvas.onmousedown = click, render
 }
 
 /**
@@ -15,10 +13,21 @@ function initEventHandelers() {
  *
  * @param {Object} ev The event object containing the mouse's canvas position
  */
+
+ var points = []
 function click(ev) {
-  //
-  // YOUR CODE HERE
-  //
+  var x = ev.offsetX;
+  var y = ev.offsetX;
+  points.push(x)
+  points.push(y)
+  gl.clear(gl.COLOR_BUFFER_BIT)
+
+  var len = points.length;
+  for(var i = 0; i < len; i += 2) {
+      gl.vertexAttrib3f(position, points[i], points[i+1], 0.0);
+      gl.vertexAttrib1f(size, 10.);
+      gl.drawArrays(gl.POINTS, 0, 1);
+  }
 }
 
 /**

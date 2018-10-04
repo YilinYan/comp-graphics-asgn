@@ -105,6 +105,8 @@ var OTHER_PROBLEM = '' +
  *     if there is an error during creation.
  * @return {WebGLRenderingContext} The created context.
  */
+
+
 var setupWebGL = function(canvas, opt_attribs, opt_onError) {
   function handleCreationError(msg) {
       var container = document.getElementsByTagName("body")[0];
@@ -182,10 +184,10 @@ if (!window.requestAnimationFrame) {
   })();
 }
 
-/** * ERRATA: 'cancelRequestAnimationFrame' renamed to 'cancelAnimationFrame' to reflect an update to the W3C Animation-Timing Spec. 
- * 
- * Cancels an animation frame request. 
- * Checks for cross-browser support, falls back to clearTimeout. 
+/** * ERRATA: 'cancelRequestAnimationFrame' renamed to 'cancelAnimationFrame' to reflect an update to the W3C Animation-Timing Spec.
+ *
+ * Cancels an animation frame request.
+ * Checks for cross-browser support, falls back to clearTimeout.
  * @param {number}  Animation frame request. */
 if (!window.cancelAnimationFrame) {
   window.cancelAnimationFrame = (window.cancelRequestAnimationFrame ||
