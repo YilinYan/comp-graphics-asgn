@@ -6,9 +6,16 @@
 
 var points = []
 var colors = []
+var sizes = []
+var rgb = [0.5, 0.5, 0.5, 1.0]
+var s = 15.5
 function initEventHandelers() {
     canvas.onmousedown = click, render
     button_clear.onmousedown = clearCanvas
+    slider_r.onchange = changePointColor
+    slider_g.onchange = changePointColor
+    slider_b.onchange = changePointColor
+    slider_s.onchange = changePointSize
 }
 
 /**
@@ -25,12 +32,8 @@ function click(ev) {
     x = ((x - rect.left) - canvas.width/2)/(canvas.width/2)
     y = (canvas.height/2 - (y - rect.top))/(canvas.height/2)
     points.push([x, y])
-
-    if(x > 0. && y > 0.) {
-      colors.push([0., 1., 0., 1.])
-    }else{
-      colors.push([0., 0., 1., 1.])
-    }
+    colors.push(rgb)
+    sizes.push(s)
     render()
 }
 
@@ -43,8 +46,9 @@ function render() {
     for(var i = 0; i < len; ++i) {
         var p = points[i]
         var c = colors[i]
+        var s = sizes[i]
         gl.vertexAttrib3f(position, p[0], p[1], 0.0)
-        gl.vertexAttrib1f(size, 10.)
+        gl.vertexAttrib1f(size, s)
         gl.uniform4f(color, c[0], c[1], c[2], c[3])
         gl.drawArrays(gl.POINTS, 0, 1)
     }
@@ -64,10 +68,9 @@ function clearCanvas() {
  *
  * @param {float} size Real value representing the size of the point.
  */
-function changePointSize(size) {
-  //
-  // YOUR CODE HERE
-  //
+function changePointSize() {
+    s = slider_s.value
+    console.log(s)
 }
 
 /**
@@ -75,8 +78,7 @@ function changePointSize(size) {
  *
  * @param {float} color Color value from 0.0 to 1.0.
  */
-function changePointColor(color) {
-  //
-  // YOUR CODE HERE
-  //
+function changePointColor() {
+    rgb = [slider_r.value, slider_g.value, slider_b.value, 1.0]
+//    console.log(rgb)
 }
