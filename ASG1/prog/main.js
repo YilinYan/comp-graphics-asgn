@@ -20,28 +20,26 @@ function main() {
 	if(!initShaders(gl, VSHADER, FSHADER)) {
 		console.log('Fail to init shaders.')
 	}
-/*
+
 	position = gl.getAttribLocation(gl.program, 'position');
 	if(position < 0) {
 		console.log('Fail to get position attribute.')
 		return;
 	}
 	gl.vertexAttrib3f(position, 0.0, 0.0, 0.0);
-*/
 
-/*
+
 	size = gl.getAttribLocation(gl.program, 'size');
 	if(size < 0) {
 		console.log('Fail to get size attribute.')
 		return;
 	}
 	gl.vertexAttrib1f(size, 10.);
-*/
 
-//	initEventHandelers();
+	initEventHandelers();
 
 	gl.clearColor(0., 0., 0., 1.)
-	gl.drawArrays(gl.Points, 0, 1);
-
 	gl.clear(gl.COLOR_BUFFER_BIT)
+	gl.drawArrays(gl.Points, 0, 1)
+
 }

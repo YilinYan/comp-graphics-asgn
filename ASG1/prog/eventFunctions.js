@@ -3,8 +3,12 @@
  * Responsible for initializing buttons, sliders, radio buttons, etc. present
  * within your HTML document.
  */
+
+var points = []
 function initEventHandelers() {
-  canvas.onmousedown = click, render
+    points.push(0.)
+    points.push(0.)
+    canvas.onmousedown = click, render
 }
 
 /**
@@ -14,12 +18,16 @@ function initEventHandelers() {
  * @param {Object} ev The event object containing the mouse's canvas position
  */
 
- var points = []
+
 function click(ev) {
-  var x = ev.offsetX;
-  var y = ev.offsetX;
+  var x = ev.clientX;
+  var y = ev.clientY;
+  var rect = ev.target.getBoundingClientRect();
+  x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
+  y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
   points.push(x)
   points.push(y)
+
   gl.clear(gl.COLOR_BUFFER_BIT)
 
   var len = points.length;
