@@ -6,9 +6,8 @@
  * @param {String} uniformName The name of the uniform variable
  */
 function sendUniformFloatToGLSL(val, uniformName) {
-  //
-  // YOUR CODE HERE
-  //
+    uniform = gl.getUniformLocation(gl.program, uniformName);
+    gl.uniform1f(uniform, val)
 }
 
 /**
@@ -19,7 +18,8 @@ function sendUniformFloatToGLSL(val, uniformName) {
  * @param {String} uniformName The name of the uniform variable
  */
 function sendUniformVec4ToGLSL(val, uniformName) {
-  //
-  // YOUR CODE HERE
-  //
+    uniform = gl.getUniformLocation(gl.program, uniformName);
+    if(val.length == 2) gl.uniform4f(uniform, val[0], val[1])
+    else if(val.length == 3) gl.uniform4f(uniform, val[0], val[1], val[2])
+    else if(val.length == 4) gl.uniform4f(uniform, val[0], val[1], val[2], val[3])
 }

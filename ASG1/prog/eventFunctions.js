@@ -9,8 +9,11 @@ var colors = []
 var sizes = []
 var rgb = [0.5, 0.5, 0.5, 1.0]
 var s = 15.5
+var drag = false
 function initEventHandelers() {
-    canvas.onmousedown = click, render
+    canvas.onmousedown = click
+    canvas.onmousemove = move
+    canvas.onmouseup = up
     button_clear.onmousedown = clearCanvas
     slider_r.onchange = changePointColor
     slider_g.onchange = changePointColor
@@ -25,7 +28,23 @@ function initEventHandelers() {
  * @param {Object} ev The event object containing the mouse's canvas position
  */
 
+ function up(ev) {
+     drag = false
+ }
+
+ function move(ev) {
+     if(drag == false) return
+     pushpoint(ev)
+     render()
+ }
+
 function click(ev) {
+    drag = true
+    pushpoint(ev)
+    render()
+}
+
+function pushpoint(ev) {
     var x = ev.clientX
     var y = ev.clientY
     var rect = ev.target.getBoundingClientRect()
@@ -34,7 +53,8 @@ function click(ev) {
     points.push([x, y])
     colors.push(rgb)
     sizes.push(s)
-    render()
+
+    sendTextToHTML([x, y], "position-show")
 }
 
 /**
@@ -70,7 +90,7 @@ function clearCanvas() {
  */
 function changePointSize() {
     s = slider_s.value
-    console.log(s)
+//    console.log(s)
 }
 
 /**

@@ -2,8 +2,8 @@ button {
     position: absolute;
     left: 50%;
     margin-left: -250px;
-    top: 520px;
-    background-color: #dddddd; /* Green */
+    top: 600px;
+    background-color: #dddddd;
     border: none;
     color: #000000;
     padding: 15px 32px;
@@ -13,14 +13,12 @@ button {
     font-size: 20px;
     cursor: pointer;
 }
-
 canvas {
     position: absolute;
     left:50%;
     margin-left: -250px;
     cursor: pointer;
 }
-
 .slider {
     position: absolute;
     left: 50%;
@@ -64,4 +62,14 @@ canvas {
 #slider-s::-webkit-slider-thumb {
     width: $(value);
     background: #333333;
+}
+div.position {
+    height: 65px;
+    background-color: #dddddd;
+    position: absolute;
+    left: 50%;
+    margin-left: -250px;
+    top: 520px;
+    padding: 0px 20px;
+    font-size: 20px;
 }

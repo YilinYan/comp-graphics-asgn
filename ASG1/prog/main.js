@@ -2,7 +2,6 @@
  * Function called when the webpage loads.
  */
 
-
 var canvas, gl
 var position, size, color
 var button_clear
@@ -47,12 +46,8 @@ function main() {
 		console.log('Fail to get color attribute.')
 		return;
 	}
-	/*
-	gl.fragAttrib3f(color, 10.);
-*/
-	initEventHandelers();
+	initEventHandelers()
 
 	gl.clearColor(0., 0., 0., 1.)
 	gl.clear(gl.COLOR_BUFFER_BIT)
-	render()
 }
