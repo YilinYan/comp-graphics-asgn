@@ -1,0 +1,55 @@
+<html lang="en">
+  <head>
+      <meta charset="utf-8"/>
+      <title> "Your Name Here"'s Assignment 2 </title>
+      <!-- Include external libraries -->
+      <script src = "lib/webgl-utils.js"></script>
+      <script src = "lib/webgl-debug.js"></script>
+      <script src = "lib/cuon-utils.js"></script>
+      <script src = "lib/load-file.js"></script>
+
+      <!-- Include main program -->
+      <script src = "prog/main.js"></script>
+
+      <!-- Include internal functions -->
+      <script src = "prog/eventFunctions.js"></script>
+      <script src = "prog/glslFunctions.js"></script>
+      <script src = "prog/htmlFunctions.js"></script>
+
+      <!-- Include scene objects -->
+      <script src = "prog/scene/scene.js"></script>
+      <script src = "prog/scene/vertex.js"></script>
+      <script src = "prog/scene/geometry.js"></script>
+
+      <!-- Include geometric objects -->
+      <script src = "prog/geometries/circle.js"></script>
+      <script src = "prog/geometries/square.js"></script>
+      <script src = "prog/geometries/triangle.js"></script>
+
+      <!-- Include shaders -->
+      <script src = "prog/shaders.js"></script>
+
+      <link rel="stylesheet" href="css/main.css">
+  </head>
+
+  <body onload = "main()">
+    <canvas id = "canvas"></canvas>
+    <div>
+        <div class="position">
+            <p id="position-show"></p>
+        </div>
+
+        <button id='clear'>Clear</button>
+
+        <input type="range" min='0' max='1' value='.5' step='any' class="slider" id="slider-r">
+        <input type="range" min='0' max='1' value='.5' step='any' class="slider" id="slider-g">
+        <input type="range" min='0' max='1' value='.5' step='any' class="slider" id="slider-b">
+        <input type="range" min='4' max='200' value='102' step='any' class="slider" id="slider-s">
+        <input type="range" min='5' max='27' value='16' step='1' class="slider" id="slider-seg">
+
+        <input type="radio" name="shape" value="circle" id="shape-c" checked> circle </input>
+        <input type="radio" name="shape" value="triangle" id="shape-t"> triangle </input>
+        <input type="radio" name="shape" value="square" id="shape-s"> square </input>
+    </div>
+  </body>
+</html>
