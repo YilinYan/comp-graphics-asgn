@@ -5,7 +5,7 @@
  */
 
 var geometry_segment = 16
-var geometry_size = 40
+var geometry_size = 102
 var geometry_color = [.5, .5, .5, 1]
 var shape = "circle"
 var button_clear, slider_r, slider_g, slider_b, slider_s, slider_seg
@@ -34,13 +34,13 @@ function initEventHandelers() {
     slider_seg.onchange = changeSegment
 
     shape_c = document.getElementById("shape-c")
-    shape_c.onchange = changeShape
+    shape_c.onmousedown = function () {shape = "circle"}
 
     shape_s = document.getElementById("shape-s")
-    shape_s.onchange = changeShape
+    shape_s.onmousedown = function () {shape = "square"}
 
     shape_t = document.getElementById("shape-t")
-    shape_t.onchange = changeShape
+    shape_t.onmousedown = function () {shape = "triangle"}
 }
 
 /**

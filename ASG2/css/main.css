@@ -1,8 +1,4 @@
 button {
-    position: absolute;
-    left: 50%;
-    margin-left: -250px;
-    top: 600px;
     background-color: #dddddd;
     border: none;
     color: #000000;
@@ -13,6 +9,35 @@ button {
     font-size: 20px;
     cursor: pointer;
 }
+button#clear {
+    position: absolute;
+    left: 50%;
+    margin-left: -370px;
+    top: 520px;
+}
+button#shape-c {
+    width: 150px;
+    position: absolute;
+    left: 50%;
+    margin-left: -250px;
+    top: 660px;
+}
+button#shape-s {
+    width: 150px;
+    position: absolute;
+    left: 50%;
+    margin-left: -250px;
+    top: 520px;
+}
+button#shape-t {
+    width: 150px;
+    position: absolute;
+    left: 50%;
+    margin-left: -250px;
+    top: 590px;
+}
+
+
 canvas {
     position: absolute;
     left:50%;
@@ -20,6 +45,7 @@ canvas {
     cursor: pointer;
     background-color: black;
 }
+
 .slider {
     position: absolute;
     left: 50%;
@@ -43,6 +69,9 @@ canvas {
 #slider-s{
     top: 660px;
 }
+#slider-seg{
+    top: 700px;
+}
 
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -61,20 +90,32 @@ canvas {
     background: #4444AA;
 }
 #slider-s::-webkit-slider-thumb {
-    width: $(value);
     background: #333333;
 }
 #slider-seg::-webkit-slider-thumb {
-    width: $(value);
     background: #333333;
 }
 div.position {
     height: 65px;
     background-color: #dddddd;
     position: absolute;
-    left: 50%;
-    margin-left: -250px;
-    top: 520px;
+    right: 50%;
+    margin-right: 260px;
+    top: 440px;
     padding: 0px 20px;
     font-size: 20px;
+    text-align: center;
+}
+div.label {
+    position: absolute;
+    right: 50%;
+    margin-right: 10px;
+    top: 600px;
+    height: 25px;
+}
+.label#size {
+    top: 658px;
+}
+.label#segments {
+    top: 697px;
 }
