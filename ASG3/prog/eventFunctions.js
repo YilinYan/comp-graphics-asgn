@@ -9,7 +9,7 @@ var geometry_size = 102
 var geometry_color = [.5, .5, .5, 1]
 var shape = "triangle"
 var button_clear, slider_r, slider_g, slider_b, slider_s, slider_seg
-var shape_c, shape_s, shape_t, shape_cube
+var shape_c, shape_s, shape_t, shape_cube, choose_file
 
 function initEventHandelers() {
     canvas.onmousedown = click
@@ -44,6 +44,12 @@ function initEventHandelers() {
 
     shape_cube = document.getElementById("shape-cube")
     shape_cube.onmousedown = function() { shape = "cube" }
+
+    shape_obj = document.getElementById("shape-obj")
+    shape_obj.onmousedown = function() { shape = "object" }
+
+    choose_file = document.getElementById("choose-file")
+    choose_file.value = ""
 }
 
 /**
@@ -53,6 +59,7 @@ function initEventHandelers() {
  * @param {Object} ev The event object containing the mouse's canvas position
  */
 function click(ev) {
+    console.log (shape)
     if (ev.buttons == false) return
     var x = ev.clientX
     var y = ev.clientY
@@ -72,6 +79,13 @@ function click(ev) {
     }
     else if (shape == "cube") {
         geometry = new TiltedCube (geometry_size, x, y, geometry_color)
+    }
+    else if (shape == "object" && choose_file.value != ""){
+        loadFile(choose_file.value, function (str) {
+            geometry = new LoadedOBJ (str)})
+    }
+    else {
+        return
     }
     scene.addGeometry (geometry)
     scene.render ()
