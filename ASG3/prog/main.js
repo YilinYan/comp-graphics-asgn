@@ -22,5 +22,4 @@
     scene = new Scene ()
     initEventHandelers()
     tick()
-
 }

@@ -24,13 +24,19 @@
  * @param {String} attribName The name of the attribute variable
  */
 function sendAttributeBufferToGLSL(rawData, dataCount, attribName) {
+    var num
     dataPre = []
+    // loadobj in different way
     rawData.forEach (function (raw, index) {
-        raw.points.forEach (function (point, index) {
+        var points = raw.points
+        if (points instanceof Vector3) points = points.elements
+        num = points.length
+        points.forEach (function (point, index) {
             dataPre.push (point) })
-        });
+    });
+
     data = new Float32Array (dataPre)  //have to be Float32Array !
-    var num = rawData[0].points.length
+//    console.log (num)
 
     if (DEBUG_FLAG == true) {
         console.log ("sendAttributeBufferToGLSL" + "  " + attribName + "  "

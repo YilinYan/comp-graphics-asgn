@@ -10,6 +10,7 @@ var geometry_color = [.5, .5, .5, 1]
 var shape = "triangle"
 var button_clear, slider_r, slider_g, slider_b, slider_s, slider_seg
 var shape_c, shape_s, shape_t, shape_cube, choose_file
+var file_str = ""
 
 function initEventHandelers() {
     canvas.onmousedown = click
@@ -49,7 +50,13 @@ function initEventHandelers() {
     shape_obj.onmousedown = function() { shape = "object" }
 
     choose_file = document.getElementById("choose-file")
-    choose_file.value = ""
+    choose_file.onchange = function() {
+        var reader = new FileReader()
+        reader.onload = function (e) {
+            file_str = e.target.result
+        }
+        reader.readAsBinaryString(choose_file.files[0])
+    }
 }
 
 /**
@@ -59,7 +66,6 @@ function initEventHandelers() {
  * @param {Object} ev The event object containing the mouse's canvas position
  */
 function click(ev) {
-    console.log (shape)
     if (ev.buttons == false) return
     var x = ev.clientX
     var y = ev.clientY
@@ -80,9 +86,15 @@ function click(ev) {
     else if (shape == "cube") {
         geometry = new TiltedCube (geometry_size, x, y, geometry_color)
     }
-    else if (shape == "object" && choose_file.value != ""){
-        loadFile(choose_file.value, function (str) {
-            geometry = new LoadedOBJ (str)})
+    else if (shape == "object" && file_str != "") {
+        geometry = new LoadedOBJ (file_str)
+        geometry.color = geometry_color
+        geometry.centerX = x
+        geometry.centerY = y
+        geometry.modelMatrix.translate (x, y, 0)
+        // 下次写的时候 vertex.points 用vector3
+        // size 和 centerXY 都用matrix实现
+        // load文件的时候要注意同步异步
     }
     else {
         return
