@@ -14,6 +14,10 @@ class TiltedCube extends Geometry {
   constructor(size, centerX, centerY, color) {
       super()
       this.color = color
+      this.generateCubeVertices(size, centerX, centerY)
+      this.startTime = Date.now()
+      this.centerX = centerX
+      this.centerY = centerY
 
       if (DEBUG_FLAG_CUBE == true) {
           console.log ("construct cube: " + "    "
@@ -39,17 +43,25 @@ class TiltedCube extends Geometry {
    */
   generateCubeVertices(size, centerX, centerY) {
       size /= 500
-      var x = [0, 0, 1, -1, 0, 0, 1, -1]
-      var y = [-1, 1, 0, 0, -1, 1, 0, 0]
-      var z = [-1, -1, -1, -1, 1, 1, 1, 1]
+      var x = [0, 0, 0, 0, 1, -1]
+      var y = [0, 0, 1, -1, 0, 0]
+      var z = [1, -1, 0, 0, 0, 0]
+      var a = [-1, -1, 1, -1, 1, 1]
+      var b = [-1, 1, 1, -1, 1, -1]
 
-      for (var i = 0; i < 8; ++i) {
-          var newX = x[i] * size + centerX
-          var newY = y[i] * size + centerY
-          var newZ = z[i] * size
-          var vertex = new Vertex (newX, newY)
-          vertex.points.push(newZ)
-          this.vertices.push (vertex)
+      for (var i = 0; i < 6; ++i) {
+          for (var j = 0; j < 6; ++j) {
+              var newX, newY, newZ
+              if (x[i] != 0) { newX = x[i]; newY = a[j]; newZ = b[j]; }
+              else if (y[i] != 0) { newX = a[j]; newY = y[i]; newZ = b[j];}
+              else { newX = a[j]; newY = b[j]; newZ = z[i];}
+              newX = centerX + size * newX
+              newY = centerY + size * newY
+              newZ = size * newZ
+              var vertex = new Vertex (newX, newY)
+              vertex.points.push(newZ)
+              this.vertices.push (vertex)
+          }
       }
 
     // Recommendations: Might want to generate your cube vertices so that their
@@ -61,9 +73,11 @@ class TiltedCube extends Geometry {
    * Updates the animation of the TiltedCube. Should make it rotate.
    */
   updateAnimation() {
-    //
-    // YOUR CODE HERE
-    //
+      var delta = (Date.now() - this.startTime) / 50.
+      var t1 = new Matrix4().setTranslate (-this.centerX, -this.centerY, 0)
+      var r = new Matrix4().setRotate (delta, 1, 1, 1)
+      var t2 = new Matrix4().setTranslate (this.centerX, this.centerY, 0)
+      this.modelMatrix = t2.multiply(r).multiply(t1)
 
     // Recommendations: Do not simply apply a rotation matrix. Doing so will
     // cause your cube to spin in a circle around the axis you've chosen.

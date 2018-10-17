@@ -5,7 +5,8 @@
  var DEBUG_FLAG = false
  var DEBUG_FLAG_SQUARE = false
  var DEBUG_FLAG_TRIANGLE = false
- var DEBUG_FLAG_CIRCLE = true
+ var DEBUG_FLAG_CIRCLE = false
+ var DEBUG_FLAG_CUBE = false
  function main() {
     canvas = document.getElementsByTagName("canvas")[0]
     canvas.width = 500

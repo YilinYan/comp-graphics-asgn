@@ -26,8 +26,11 @@
 function sendAttributeBufferToGLSL(rawData, dataCount, attribName) {
     dataPre = []
     rawData.forEach (function (raw, index) {
-        dataPre.push (raw.points[0], raw.points[1]) });
+        raw.points.forEach (function (point, index) {
+            dataPre.push (point) })
+        });
     data = new Float32Array (dataPre)  //have to be Float32Array !
+    var num = rawData[0].points.length
 
     if (DEBUG_FLAG == true) {
         console.log ("sendAttributeBufferToGLSL" + "  " + attribName + "  "
@@ -39,7 +42,7 @@ function sendAttributeBufferToGLSL(rawData, dataCount, attribName) {
     gl.bufferData (gl.ARRAY_BUFFER, data, gl.STATIC_DRAW)  // specified STREAM_DRAW ?
 
     var a_Position = gl.getAttribLocation(gl.program, attribName)
-    gl.vertexAttribPointer (a_Position, 2, gl.FLOAT, false, 0, 0)
+    gl.vertexAttribPointer (a_Position, num, gl.FLOAT, false, 0, 0)
     gl.enableVertexAttribArray (a_Position)
 
   // Recommendations: This piece of code should do these three things:

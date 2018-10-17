@@ -20,6 +20,7 @@ class RandomCircle extends Circle {
       this.direction = Math.random() * Math.PI * 2
       this.deltaX = 0
       this.deltaY = 0
+      this.lastTime = Date.now()
 
     // Recomendations: You're going to need a few variables to keep track of
     // information relevant to your animation. For example, a circle is going
@@ -31,8 +32,8 @@ class RandomCircle extends Circle {
    * matrix translating into a random direction.
    */
   updateAnimation() {
-      var newX = this.deltaX + Math.cos(this.direction) / 100
-      var newY = this.deltaY + Math.sin(this.direction) / 100
+      var newX = this.deltaX + Math.cos(this.direction) / 1000 * (Date.now() - this.lastTime)
+      var newY = this.deltaY + Math.sin(this.direction) / 1000 * (Date.now() - this.lastTime)
       var t = new Matrix4().setTranslate (newX, newY, 0)
 
       for (var i = 0; this.vertices[i]; ++i) {
@@ -41,10 +42,12 @@ class RandomCircle extends Circle {
           var v = (t.multiplyVector4 (v4)).elements
 
           if (v[0] > 1 || v[0] < -1) {
+              v[0] /= Math.abs (v[0])
               this.direction = Math.PI - this.direction
               break
           }
           else if (v[1] > 1 || v[1] < -1) {
+              v[1] /= Math.abs (v[1])
               this.direction = - this.direction
               break
           }
@@ -52,6 +55,7 @@ class RandomCircle extends Circle {
       this.deltaX = newX
       this.deltaY = newY
       this.modelMatrix = t
+      this.lastTime = Date.now()
 
 
     // Recomendations: Refer to README.txt for more detalied recommendations
