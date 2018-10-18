@@ -91,7 +91,7 @@ function click(ev) {
         geometry.color = geometry_color
         geometry.centerX = x
         geometry.centerY = y
-        geometry.modelMatrix.translate (x, y, 0)
+        geometry.modelMatrix.translate (x, y, 0).scale(geometry_size/250, geometry_size/250, geometry_size/250)
         // 下次写的时候 vertex.points 用vector3
         // size 和 centerXY 都用matrix实现
         // load文件的时候要注意同步异步

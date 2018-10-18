@@ -1,4 +1,10 @@
-/*
+canvas {
+    position: absolute;
+    left:50%;
+    margin-left: -250px;
+    cursor: pointer;
+    background-color: black;
+}
 button {
     background-color: #dddddd;
     border: none;
@@ -13,41 +19,45 @@ button {
 button#clear {
     position: absolute;
     left: 50%;
-    margin-left: -370px;
+    margin-left: -250px;
     top: 520px;
 }
-button#shape-c {
+button#shape-cube {
     width: 150px;
     position: absolute;
     left: 50%;
-    margin-left: -250px;
-    top: 660px;
+    margin-left: -420px;
+    top: 230px;
+}
+button#shape-obj {
+    width: 200px;
+    position: absolute;
+    left: 50%;
+    margin-left: -470px;
+    top: 130px;
 }
 button#shape-s {
     width: 150px;
     position: absolute;
     left: 50%;
-    margin-left: -250px;
-    top: 520px;
+    margin-left: -420px;
+    top: 300px;
 }
 button#shape-t {
     width: 150px;
     position: absolute;
     left: 50%;
-    margin-left: -250px;
-    top: 590px;
+    margin-left: -420px;
+    top: 370px;
 }
-*/
-
-canvas {
+button#shape-c {
+    width: 150px;
     position: absolute;
-    left:50%;
-    margin-left: -250px;
-    cursor: pointer;
-    background-color: black;
-    top: 100px;
+    left: 50%;
+    margin-left: -420px;
+    top: 440px;
 }
-/*
+
 .slider {
     position: absolute;
     left: 50%;
@@ -58,22 +68,22 @@ canvas {
     background: #dddddd;
     outline: none;
 }
-
 #slider-r{
-    top: 520px;
+    top: 620px;
 }
 #slider-g{
-    top: 560px;
-}
-#slider-b{
-    top: 600px;
-}
-
-#slider-s{
     top: 660px;
 }
-#slider-seg{
+#slider-b{
     top: 700px;
+}
+#slider-s{
+    margin-left: -250px;
+    top: 620px;
+}
+#slider-seg{
+    margin-left: -250px;
+    top: 660px;
 }
 
 .slider::-webkit-slider-thumb {
@@ -98,31 +108,37 @@ canvas {
 #slider-seg::-webkit-slider-thumb {
     background: #333333;
 }
-*/
-/*
+
 div.position {
-    height: 65px;
     background-color: #dddddd;
     position: absolute;
     right: 50%;
-    margin-right: 260px;
-    top: 440px;
-    padding: 0px 20px;
-    font-size: 20px;
+    margin-right: -250px;
+    top: 520px;
+    padding: 15px 20px;
+    font-size: 18px;
     text-align: center;
+    border: none;
+    text-decoration: none;
+    display: block;
 }
 div.label {
     position: absolute;
     right: 50%;
-    margin-right: 10px;
+    margin-right: 260px;
     top: 600px;
     height: 25px;
 }
 .label#size {
-    top: 658px;
+    top: 615px;
 }
 .label#segments {
-    top: 697px;
+    top: 655px;
 }
 
-*/
+input#choose-file {
+    position: absolute;
+    top: 90px;
+    right: 50%;
+    margin-right: 215px;
+}

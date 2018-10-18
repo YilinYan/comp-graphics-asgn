@@ -21,6 +21,9 @@ class RandomCircle extends Circle {
       this.deltaX = 0
       this.deltaY = 0
       this.lastTime = Date.now()
+      this.centerX = centerX
+      this.centerY = centerY
+      this.radius = radius / 500
 
     // Recomendations: You're going to need a few variables to keep track of
     // information relevant to your animation. For example, a circle is going
@@ -34,8 +37,7 @@ class RandomCircle extends Circle {
   updateAnimation() {
       var newX = this.deltaX + Math.cos(this.direction) / 1000 * (Date.now() - this.lastTime)
       var newY = this.deltaY + Math.sin(this.direction) / 1000 * (Date.now() - this.lastTime)
-      var t = new Matrix4().setTranslate (newX, newY, 0)
-
+      /* It is too slow
       for (var i = 0; this.vertices[i]; ++i) {
           var vertice = this.vertices[i].points
           var v4 = new Vector4 ([vertice[0], vertice[1], 1, 1])
@@ -52,11 +54,21 @@ class RandomCircle extends Circle {
               break
           }
       }
+      */
+      var xx = this.centerX + newX
+      var yy = this.centerY + newY
+      if (xx + this.radius > 1 || xx - this.radius < -1) {
+          newX = xx / Math.abs(xx) * (1 - this.radius) - this.centerX
+          this.direction = Math.PI - this.direction
+      }
+      else if (yy + this.radius > 1 || yy - this.radius < -1) {
+          newY = yy / Math.abs(yy) * (1 - this.radius) - this.centerY
+          this.direction = - this.direction
+      }
       this.deltaX = newX
       this.deltaY = newY
-      this.modelMatrix = t
+      this.modelMatrix = new Matrix4().setTranslate (newX, newY, 0)
       this.lastTime = Date.now()
-
 
     // Recomendations: Refer to README.txt for more detalied recommendations
     //
