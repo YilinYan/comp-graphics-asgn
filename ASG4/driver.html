@@ -1,7 +1,7 @@
 <html lang="en">
   <head>
       <meta charset="utf-8"/>
-      <title> "Your Name Here"'s Assignment 4 </title>
+      <title> Yilin Yan's Assignment 4 </title>
       <!-- Include external libraries -->
       <script src = "lib/webgl-utils.js"></script>
       <script src = "lib/webgl-debug.js"></script>
@@ -43,11 +43,38 @@
       <!-- OBJ Loading -->
       <script src = "lib/obj_loading/webgl-obj-loader.js"></script>
       <script src = "lib/obj_loading/loadedOBJ.js"></script>
+
+      <link rel="stylesheet" href="css/main.css">
   </head>
 
   <body onload = "main()">
-    <p> Assignment 4 </p>
+    <canvas id = "canvas"></canvas>
+    <div>
+        <div class="position" id="position-show">
+            <!--p id="position-show"></p-->
+        </div>
 
-    <!-- YOUR CODE HERE -->
+        <button id='clear'>Clear</button>
+
+        <input type="range" min='0' max='1' value='.5' step='any' class="slider" id="slider-r">
+        <input type="range" min='0' max='1' value='.5' step='any' class="slider" id="slider-g">
+        <input type="range" min='0' max='1' value='.5' step='any' class="slider" id="slider-b">
+        <input type="range" min='4' max='200' value='102' step='any' class="slider" id="slider-s">
+        <input type="range" min='5' max='27' value='16' step='1' class="slider" id="slider-seg">
+
+        <div class="label" id="size">size</div>
+        <div class="label" id="segments">segments</div>
+
+        <button id='shape-c'>Circle</button>
+        <button id='shape-t'>Triangle</button>
+        <button id='shape-s'>Square</button>
+        <button id='shape-cube'>Cube</button>
+        <button id='shape-obj'>My Object</button>
+
+        <input type="file" id="choose-file">
+        <!--input type="radio" name="shape" value="circle" id="shape-c" checked> circle </input>
+        <input type="radio" name="shape" value="triangle" id="shape-t"> triangle </input>
+        <input type="radio" name="shape" value="square" id="shape-s"> square </input-->
+    </div>
   </body>
 </html>

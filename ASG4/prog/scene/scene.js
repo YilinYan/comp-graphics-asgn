@@ -12,12 +12,8 @@ class Scene {
    */
   constructor() {
     this.geometries = []; // Geometries being drawn on canvas
-    //
-    // YOUR CODE HERE
-    //
-
-    // Recommendations: Setting the canvas's clear color and clearing the canvas
-    // here is a good idea.
+    gl.clearColor (0., 0., 0., 1.)
+    gl.clear (gl.COLOR_BUFFER_BIT)
   }
 
   /**
@@ -26,46 +22,30 @@ class Scene {
    * @param {Geometry} geometry Geometry being added to scene
    */
   addGeometry(geometry) {
-    //
-    // YOUR CODE HERE
-    //
+      this.geometries.push (geometry)
   }
 
   /**
    * Clears all the geometry within the scene.
    */
   clearGeometry() {
-    //
-    // YOUR CODE HERE
-    //
-
-    // Recommendations: It would be best to call this.render() at the end of
-    // this call.
+      this.geometries = []
+      gl.clear (gl.COLOR_BUFFER_BIT)
   }
 
   /**
    * Updates the animation for each geometry in geometries.
    */
   updateAnimation() {
-    //
-    // YOUR CODE HERE
-    //
-
-    // Recomendations: No rendering should be done here. Your Geometry objects
-    // in this.geometries should update their animations themselves through
-    // their own .updateAnimation() methods.
+      this.geometries.forEach (function (geometry, index) {
+          geometry.updateAnimation() });
   }
 
   /**
    * Renders all the Geometry within the scene.
    */
   render() {
-    //
-    // YOUR CODE HERE
-    //
-
-    // Recommendations: No calls to any of your GLSL functions should be made
-    // here. Your Geometry objects in this.geometries should render themselves
-    // through their own .render() methods.
+      this.geometries.forEach (function (geometry, index) {
+          geometry.render() });
   }
 }

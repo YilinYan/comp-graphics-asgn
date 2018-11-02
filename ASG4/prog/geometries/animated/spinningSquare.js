@@ -14,11 +14,11 @@ class SpinningSquare extends Square {
    * @param {Number} centerY The center y-position of the square
    * @returns {SpinningSquare} SpinningSquare object created
    */
-  constructor(size, centerX, centerY) {
-    //
-    // YOUR CODE HERE
-    //
-
+  constructor(size, centerX, centerY, color) {
+    super(size, centerX, centerY, color)
+    this.startTime = Date.now()
+    this.centerX = centerX
+    this.centerY = centerY
     // Recomendations: You're going to need a few variables to keep track of
     // information relevant to your animation. For example, a square is going
     // to need a variable to keep track of its centerX and centerY position.
@@ -29,9 +29,11 @@ class SpinningSquare extends Square {
    * relative to its center.
    */
   updateAnimation() {
-    //
-    // YOUR CODE HERE
-    //
+        var delta = (Date.now() - this.startTime) / 50.
+        var t1 = new Matrix4().setTranslate (-this.centerX, -this.centerY, 0)
+        var r = new Matrix4().setRotate (delta, 0, 0, 1)
+        var t2 = new Matrix4().setTranslate (this.centerX, this.centerY, 0)
+        this.modelMatrix = t2.multiply(r).multiply(t1)
 
     // Recomendations: Do not simply apply a rotation matrix. Doing so will
     // cause your square to spin in a circle on screen.

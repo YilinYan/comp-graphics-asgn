@@ -15,6 +15,7 @@ class LoadedOBJ extends Geometry {
    */
   constructor(objStr) {
     super();
+    this.lastTime = Date.now();
 
     // Construct the Mesh object containg the OBJ file's information
     var objMesh = new OBJ.Mesh(objStr);
@@ -175,5 +176,10 @@ class LoadedOBJ extends Geometry {
     var scaleMatrix = new Matrix4();
     scaleMatrix.setScale(scaleValue, scaleValue, scaleValue);
     this.modelMatrix = scaleMatrix.multiply(this.modelMatrix);
+  }
+  updateAnimation() {
+    var delta = (Date.now() - this.lastTime) / 50.
+    this.modelMatrix.rotate (delta, 0, 1, 0)
+    this.lastTime = Date.now()
   }
 }
