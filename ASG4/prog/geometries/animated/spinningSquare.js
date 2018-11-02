@@ -14,8 +14,8 @@ class SpinningSquare extends Square {
    * @param {Number} centerY The center y-position of the square
    * @returns {SpinningSquare} SpinningSquare object created
    */
-  constructor(size, centerX, centerY, color) {
-    super(size, centerX, centerY, color)
+  constructor(size, centerX, centerY, color, color_type) {
+    super(size, centerX, centerY, color, color_type)
     this.startTime = Date.now()
     this.centerX = centerX
     this.centerY = centerY

@@ -13,8 +13,8 @@ class FluctuatingTriangle extends Triangle {
    * @param {Number} centerX The center x-position of the triangle
    * @param {Number} centerY The center y-position of the triangle
    */
-  constructor(size, centerX, centerY, color) {
-      super (size, centerX, centerY, color)
+  constructor(size, centerX, centerY, color, color_type) {
+      super (size, centerX, centerY, color, color_type)
       this.centerX = centerX
       this.centerY = centerY
       this.startTime = Date.now()

@@ -80,20 +80,7 @@ function sendUniformMatToGLSL(val, uniformName) {
 * @param {Number} dataCount The amount of data to pass per vertex
 * @param {String} attribName The name of the attribute variable
 */
-function sendAttributeBufferToGLSL(rawData, dataCount, attribName) {
-  var num
-  dataPre = []
-  // loadobj in different way
-  rawData.forEach (function (raw, index) {
-    var points = raw.points
-    if (points instanceof Vector3) points = points.elements
-    num = points.length
-    points.forEach (function (point, index) {
-      dataPre.push (point) })
-  });
-
-  data = new Float32Array (dataPre)  //have to be Float32Array !
-
+function sendAttributeBufferToGLSL(data, dataCount, attribName) {
   if (DEBUG_FLAG == true) {
     console.log ("sendAttributeBufferToGLSL" + "  " + attribName + "  "
                     + dataCount + "\n" + data)
@@ -104,16 +91,8 @@ function sendAttributeBufferToGLSL(rawData, dataCount, attribName) {
   gl.bufferData (gl.ARRAY_BUFFER, data, gl.STATIC_DRAW)  // specified STREAM_DRAW ?
 
   var a_Position = gl.getAttribLocation(gl.program, attribName)
-  gl.vertexAttribPointer (a_Position, num, gl.FLOAT, false, 0, 0)
+  gl.vertexAttribPointer (a_Position, data.length / dataCount, gl.FLOAT, false, 0, 0)
   gl.enableVertexAttribArray (a_Position)
-
-// Recommendations: This piece of code should do these three things:
-// 1. Create a an attribute buffer
-// 2. Bind data to that buffer
-// 3. Enable the buffer for use
-//
-// Some modifications can be made to this function to improve performance. Ask
-// a TA in lab if you're interested in these modifications.
 }
 
 /**

@@ -14,8 +14,9 @@ class Circle extends Geometry {
    * @param {Number} centerX The central x-position of the circle
    * @param {Number} centerY The central y-position of the circle
    */
-  constructor(radius, segments, centerX, centerY, color) {
+  constructor(radius, segments, centerX, centerY, color, color_type) {
     super()
+    this.color_type = color_type
     this.color = color
     this.generateCircleVertices(radius, segments, centerX, centerY)
 
@@ -56,8 +57,10 @@ class Circle extends Geometry {
         this.vertices.push (new Vertex (x1, y1))
         this.vertices.push (new Vertex (x2, y2))
     }
-
-    // Recommendations: Might want to call this within your Circle constructor.
-    // Keeps your code clean :)
+    
+    if (this.color_type == "solid") return
+    this.vertices.forEach((v, i) => {
+      v.color = [Math.random(), Math.random(), Math.random(), 1]
+    })
   }
 }

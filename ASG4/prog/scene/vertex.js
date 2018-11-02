@@ -16,8 +16,7 @@ class Vertex {
 */
 class Vertex {
   constructor(centerX, centerY, centerZ = 0) {
-    this.points = //new Vector3(centerX, centerY, centerZ);
-    [centerX, centerY, centerZ];
+    this.pos = new Vector3([centerX, centerY, centerZ]);
     this.color = [];
     this.uv = [];
     this.normal = new Vector3();

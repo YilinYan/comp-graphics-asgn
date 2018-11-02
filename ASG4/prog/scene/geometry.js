@@ -14,7 +14,6 @@ class Geometry {
     this.vertices = []; // Vertex objects. Each vertex has x-y-z.
     this.color = [];  // The color of your geometric object
     this.modelMatrix = new Matrix4().setIdentity()
-
  // Model matrix applied to geometric object
 
   }
@@ -31,13 +30,35 @@ class Geometry {
           + this.vertices[2].points)
       }
 
-      sendAttributeBufferToGLSL (this.vertices, this.vertices.length, "position")
-      sendUniformVec4ToGLSL (this.color, "color")
+      if (this.color_type == "rainbow")
+        useShader(gl, shader_rainbow)
+      else 
+        useShader(gl, shader_normal)
+
+      // 优化， 不要每次都计算
+      var points = new Float32Array (this.vertices.length * 3)
+      this.vertices.forEach((v, i) => {
+        v.pos.elements.forEach((p, j) => {
+          points[i * 3 + j] = p
+        })
+      })
+
+      if (this.color_type == "rainbow") {
+        var colors = new Float32Array (this.vertices.length * 4)
+        this.vertices.forEach((v, i) => {
+          v.color.forEach((c, j) => {
+            colors[i * 4 + j] = c
+          }) 
+        })
+        sendAttributeBufferToGLSL (colors, this.vertices.length, "a_color")
+      }
+      else {
+        sendUniformVec4ToGLSL (this.color, "color")
+      }
+
+      sendAttributeBufferToGLSL (points, this.vertices.length, "position")  
       sendUniformMatToGLSL(this.modelMatrix.elements, "transMatrix")
       tellGLSLToDrawCurrentBuffer (this.vertices.length)
-
-    // Recommendations: sendUniformVec4ToGLSL(), tellGLSLToDrawCurrentBuffer(),
-    // and sendAttributeBufferToGLSL() are going to be useful here.
   }
 
   /**

@@ -13,8 +13,9 @@ class Triangle extends Geometry {
    * @param {Number} centerX The center x-position of the triangle
    * @param {Number} centerY The center y-position of the triangle
    */
-  constructor(size, centerX, centerY, color) {
+  constructor(size, centerX, centerY, color, color_type) {
       super ()
+      this.color_type = color_type
       this.color = color
       this.generateTriangleVertices (size, centerX, centerY)
 
@@ -45,8 +46,10 @@ class Triangle extends Geometry {
            var y = size * Math.sin (i) + centerY
            this.vertices.push (new Vertex (x, y))
         }
-
-       // Recommendations: Might want to call this within your Triangle constructor.
-       // Keeps your code clean :)
+        
+        if (this.color_type == "solid") return
+        this.vertices.forEach((v, i) => {
+            v.color = [Math.random(), Math.random(), Math.random(), 1]
+        })
    }
 }

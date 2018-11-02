@@ -3,8 +3,10 @@ var geometry_segment = 16
 var geometry_size = 102
 var geometry_color = [.5, .5, .5, 1]
 var shape = "triangle"
+var geometry_color_type = "rainbow"
 var button_clear, slider_r, slider_g, slider_b, slider_s, slider_seg
 var shape_c, shape_s, shape_t, shape_cube, choose_file
+var color_type
 var file_str = ""
 
 function initEventHandelers() {
@@ -52,6 +54,17 @@ function initEventHandelers() {
         }
         reader.readAsBinaryString(choose_file.files[0])
     }
+
+    color_type = document.getElementById("color-type")
+    color_type.onmousedown = function() {
+        if (geometry_color_type == "solid") {
+            geometry_color_type = "rainbow"
+            sendTextToHTML("Solid Color", "color-type")
+        } else {
+            geometry_color_type = "solid" 
+            sendTextToHTML("Rainbow", "color-type")
+        }
+    }
 }
 
 /**
@@ -70,13 +83,13 @@ function click(ev) {
 
     var geometry
     if (shape == "circle") {
-        geometry = new RandomCircle (geometry_size, geometry_segment, x, y, geometry_color)
+        geometry = new RandomCircle (geometry_size, geometry_segment, x, y, geometry_color, geometry_color_type)
     }
     else if (shape == "triangle") {
-        geometry = new FluctuatingTriangle (geometry_size, x, y, geometry_color)
+        geometry = new FluctuatingTriangle (geometry_size, x, y, geometry_color, geometry_color_type)
     }
     else if (shape == "square") {
-        geometry = new SpinningSquare (geometry_size, x, y, geometry_color)
+        geometry = new SpinningSquare (geometry_size, x, y, geometry_color, geometry_color_type)
     }
     else if (shape == "cube") {
         geometry = new TiltedCube (geometry_size, x, y, geometry_color)
@@ -94,6 +107,7 @@ function click(ev) {
     else {
         return
     }
+
     scene.addGeometry (geometry)
     scene.render ()
     sendTextToHTML([x, y], "position-show")

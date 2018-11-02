@@ -13,8 +13,9 @@ class Square extends Geometry {
    * @param {Number} centerX The center x-position of the square
    * @param {Number} centerY The center y-position of the square
    */
-  constructor(size, centerX, centerY, color) {
+  constructor(size, centerX, centerY, color, color_type) {
     super()
+    this.color_type = color_type
     this.color = color
     this.generateSquareVertices(size, centerX, centerY)
 
@@ -51,7 +52,9 @@ class Square extends Geometry {
           this.vertices.push (new Vertex(a, b))
       }
 
-    // Recommendations: Might want to call this within your Square constructor.
-    // Keeps your code clean :)
+      if (this.color_type == "solid") return
+      this.vertices.forEach((v, i) => {
+        v.color = [Math.random(), Math.random(), Math.random(), 1]
+      })
   }
 }
