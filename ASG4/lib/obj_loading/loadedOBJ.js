@@ -15,6 +15,7 @@ class LoadedOBJ extends Geometry {
    */
   constructor(objStr) {
     super();
+    //加了时间
     this.lastTime = Date.now();
 
     // Construct the Mesh object containg the OBJ file's information
@@ -72,8 +73,8 @@ class LoadedOBJ extends Geometry {
 
         vertexHasNotBeenEncountered[index] = false;
       }
-
-      this.vertices[i].points = new Vector3(xyz);
+      //这里改成了pos
+      this.vertices[i].pos = new Vector3(xyz);
     }
 
     centerPoint[0] /= -(points.length / 3);
@@ -177,9 +178,42 @@ class LoadedOBJ extends Geometry {
     scaleMatrix.setScale(scaleValue, scaleValue, scaleValue);
     this.modelMatrix = scaleMatrix.multiply(this.modelMatrix);
   }
+  //加了animation
   updateAnimation() {
     var delta = (Date.now() - this.lastTime) / 50.
     this.modelMatrix.rotate (delta, 0, 1, 0)
     this.lastTime = Date.now()
+  }
+
+  render() {
+    if(this.image) {
+      useShader(gl, shader_texture)
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1)
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, this.image)
+      sendUniformImageToGLSL ("u_sampler")
+
+      var uvs = new Float32Array (this.vertices.length * 2)
+      this.vertices.forEach((v, i) => {
+        v.uv.forEach((uv, j) => {
+          uvs[i * 2 + j] = uv
+        })
+      })
+      sendAttributeBufferToGLSL (uvs, this.vertices.length, "a_texCoord")  
+    }
+    else {
+      useShader(gl, shader_normal)
+      sendUniformVec4ToGLSL (this.color, "color")
+    }
+
+    var points = new Float32Array (this.vertices.length * 3)
+    this.vertices.forEach((v, i) => {
+      v.pos.elements.forEach((p, j) => {
+        points[i * 3 + j] = p
+      })
+    })
+
+    sendUniformMatToGLSL (this.modelMatrix.elements, "transMatrix")
+    sendAttributeBufferToGLSL (points, this.vertices.length, "position")  
+    tellGLSLToDrawCurrentBuffer (this.vertices.length)
   }
 }

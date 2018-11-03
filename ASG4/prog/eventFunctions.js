@@ -4,8 +4,9 @@ var geometry_size = 102
 var geometry_color = [.5, .5, .5, 1]
 var shape = "triangle"
 var geometry_color_type = "rainbow"
+var geometry_image
 var button_clear, slider_r, slider_g, slider_b, slider_s, slider_seg
-var shape_c, shape_s, shape_t, shape_cube, choose_file
+var shape_c, shape_s, shape_t, shape_cube, choose_file, choose_image
 var color_type
 var file_str = ""
 
@@ -47,13 +48,12 @@ function initEventHandelers() {
     shape_obj.onmousedown = function() { shape = "object" }
 
     choose_file = document.getElementById("choose-file")
-    choose_file.onchange = function() {
-        var reader = new FileReader()
-        reader.onload = function (e) {
-            file_str = e.target.result
-        }
-        reader.readAsBinaryString(choose_file.files[0])
-    }
+    choose_file.onchange = () => { loadFile(choose_file.files[0], 
+        (e) => {file_str = e.target.result}) }
+
+    choose_image = document.getElementById("choose-image")
+    choose_image.onchange = () => { loadImage(choose_image.files[0], 
+        (e) => { geometry_image = e.target }) }
 
     color_type = document.getElementById("color-type")
     color_type.onmousedown = function() {
@@ -92,24 +92,23 @@ function click(ev) {
         geometry = new SpinningSquare (geometry_size, x, y, geometry_color, geometry_color_type)
     }
     else if (shape == "cube") {
-        geometry = new TiltedCube (geometry_size, x, y, geometry_color)
+        if (geometry_image)
+            geometry = new MultiTextureCube (geometry_size, x, y, geometry_image)
+        else
+            geometry = new TiltedCube (geometry_size, x, y, geometry_color)
     }
     else if (shape == "object" && file_str != "") {
         geometry = new LoadedOBJ (file_str)
         geometry.color = geometry_color
+        geometry.image = geometry_image
         geometry.centerX = x
         geometry.centerY = y
-        geometry.modelMatrix.translate(x, y, 0).scale(geometry_size/250, geometry_size/250, geometry_size/250)
-        // 下次写的时候 vertex.points 用vector3
-        // size 和 centerXY 都用matrix实现
-        // load文件的时候要注意同步异步
+        geometry.modelMatrix.setTranslate(x, y, 0).scale(geometry_size/250, geometry_size/250, geometry_size/250)
     }
     else {
         return
     }
-
     scene.addGeometry (geometry)
-    scene.render ()
     sendTextToHTML([x, y], "position-show")
 }
 

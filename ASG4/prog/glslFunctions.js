@@ -8,9 +8,6 @@
  * textureUnit location (0 - 7) will reside
  */
 function send2DTextureToGLSL(val, textureUnit, uniformName) {
-  //
-  // YOUR CODE HERE
-  //
 
   // Recomendations: Within this funciton, you should:
   //    1. Gather your uniform location
@@ -37,9 +34,6 @@ function send2DTextureToGLSL(val, textureUnit, uniformName) {
  * object passed as a parameter.
  */
 function create2DTexture(imgPath, magParam, minParam, wrapSParam, wrapTParam, callback) {
-  //
-  // YOUR CODE HERE
-  //
 
   // Recomendations: This function should see you creating an Image object,
   // setting that image object's ".onload" to an anonymous function containing
@@ -134,4 +128,9 @@ function sendUniformVec4ToGLSL(val, uniformName) {
   if(val.length == 2) gl.uniform4f(uniform, val[0], val[1])
   else if(val.length == 3) gl.uniform4f(uniform, val[0], val[1], val[2])
   else if(val.length == 4) gl.uniform4f(uniform, val[0], val[1], val[2], val[3])
+}
+
+function sendUniformImageToGLSL(uniformName) {
+  var u_sampler = gl.getUniformLocation(gl.program, uniformName)
+  gl.uniform1i(u_sampler, 0)
 }

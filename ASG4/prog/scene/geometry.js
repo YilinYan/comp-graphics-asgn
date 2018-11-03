@@ -25,9 +25,9 @@ class Geometry {
       if (DEBUG_FLAG == true) {
           console.log (this.constructor.name + "    "
           + this.color + "    "
-          + this.vertices[0].points + "  "
-          + this.vertices[1].points + "  "
-          + this.vertices[2].points)
+          + this.vertices[0].pos.elements + "  "
+          + this.vertices[1].pos.elements + "  "
+          + this.vertices[2].pos.elements)
       }
 
       if (this.color_type == "rainbow")
