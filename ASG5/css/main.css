@@ -1,0 +1,7 @@
+canvas {
+    position: absolute;
+    left:50%;
+    margin-left: -250px;
+    cursor: pointer;
+    background-color: black;
+}
