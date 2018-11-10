@@ -34,8 +34,10 @@ varying vec2 v_texCoord;
 attribute vec2 a_texCoord;
 attribute vec4 position;
 uniform mat4 transMatrix;
+uniform mat4 u_viewMatrix;
+uniform mat4 u_projMatrix;
 void main() {
-   gl_Position = transMatrix * position;
+   gl_Position = u_projMatrix * u_viewMatrix * transMatrix * position;
    v_texCoord = a_texCoord;
 }`
 

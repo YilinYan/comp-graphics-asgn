@@ -54,6 +54,8 @@ class MultiTextureCube extends TiltedCube {
 
     sendUniformImageToGLSL ("u_sampler") 
     sendUniformMatToGLSL (this.modelMatrix.elements, "transMatrix")
+    sendUniformMatToGLSL (camera.view.elements, "u_viewMatrix")
+    sendUniformMatToGLSL (camera.proj.elements, "u_projMatrix")
     sendAttributeBufferToGLSL (points, this.vertices.length, "position")  
     sendAttributeBufferToGLSL (uvs, this.vertices.length, "a_texCoord")  
     tellGLSLToDrawCurrentBuffer (this.vertices.length)

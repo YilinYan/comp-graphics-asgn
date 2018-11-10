@@ -1,14 +1,12 @@
-/**
- * Function called when the webpage loads.
- */
-var canvas, gl, position, size, color, scene
+var canvas, gl, position, size, color, scene, camera
 var shader_normal, shader_rainbow, shader_texture
-var DEBUG_FLAG = true
+var DEBUG_FLAG = false
 var DEBUG_FLAG_SQUARE = false
 var DEBUG_FLAG_TRIANGLE = false
 var DEBUG_FLAG_CIRCLE = false
-var DEBUG_FLAG_CUBE = true
-var DEBUG_VERTEX = true
+var DEBUG_FLAG_CUBE = false
+var DEBUG_VERTEX = false
+
 function main() {
   canvas = document.getElementsByTagName("canvas")[0]
   canvas.width = 500
@@ -23,8 +21,10 @@ function main() {
   gl.enable(gl.DEPTH_TEST)
 
   scene = new Scene()
+  camera = Camera()
+  camera.setLookAt([1, 0, 0.5], [0, 0, 0], [0, 1, 0])
+  camera.setPerspective(90, 1, 0.01, 100)
   addCube()
-  console.log(scene)
 //  scene.render()
 
 //  initEventHandelers()
@@ -46,5 +46,5 @@ function addCube() {
     scene.addGeometry (geometry)
     scene.render()
   }
-  image.src = "external/textures/BeachPebbles.tif"
+  image.src = "external/textures/checkerboard.png"
 }
