@@ -7,6 +7,7 @@ var DEBUG_FLAG_CIRCLE = false
 var DEBUG_FLAG_CUBE = false
 var DEBUG_VERTEX = false
 var textures = [new Image(), new Image(), new Image()]
+var textureObjs = []
 
 function main() {
   canvas = document.getElementsByTagName("canvas")[0]
@@ -17,13 +18,12 @@ function main() {
     return
   }
   shader_rainbow = createShader(gl, VSHADER_RAINBOW, FSHADER_RAINBOW)
-  shader_normal = createShader(gl, VSHADER, FSHADER)
+  shader_normal  = createShader(gl, VSHADER, FSHADER)
   shader_texture = createShader(gl, VSHADER_TEXTURE, FSHADER_TEXTURE)
   gl.enable(gl.DEPTH_TEST)
 
   scene = new Scene()
   camera = Camera()
-  addCube()
 
   loadImage("external/textures/grass.png", (e) => {textures[0] = e.target;})
   loadImage("external/textures/sand.png",  (e) => {textures[1] = e.target;})
@@ -60,15 +60,26 @@ function loadMap() {
           }
         }
       }
+      initTexture()
   }
   map.src = "external/textures/map.png"
 }
 
-function addCube() {
+function initTexture() {
   var texture = gl.createTexture()
   gl.activeTexture(gl.TEXTURE0)
   gl.bindTexture(gl.TEXTURE_2D, texture)
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+
+  /*
+  for (var i = 0; i < 3; ++i) {
+    textureObjs[i] = gl.createTexture()
+    gl.activeTexture(gl.TEXTURE0)
+    gl.bindTexture(gl.TEXTURE_2D, textureObjs[i])
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, textures[i])
+  }
+  */
   tick()
 }
 

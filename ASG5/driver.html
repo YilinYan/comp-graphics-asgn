@@ -39,7 +39,12 @@
 
     <body onload = "main()">
         <canvas id = "canvas"></canvas>
-        <div>
-        </div>
+        <label id="near">near
+            <input type="range" min='0.001' max='8' value='0.01' step=any class="slider" id="slider-near">
+        </label>
+        <label id="far">far
+            <input type="range" min='2' max='30' value='30' step=any class="slider" id="slider-far">
+        </label>
+        <button id='view'>Orthographic</button>
     </body>
 </html>

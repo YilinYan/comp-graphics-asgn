@@ -36,9 +36,14 @@ class MultiTextureCube extends TiltedCube {
    */
   render() {
     useShader(gl, shader_texture)
-    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1)
+    
+ //   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1)
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, this.image)
 
+/*
+    gl.activeTexture(gl.TEXTURE0)
+    gl.bindTexture(gl.TEXTURE_2D, this.image)
+*/
     var points = new Float32Array (this.vertices.length * 3)
     this.vertices.forEach((v, i) => {
       v.pos.elements.forEach((p, j) => {

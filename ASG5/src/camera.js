@@ -10,13 +10,17 @@ var Camera = () => {
   var lastMouse;
   var fov = 75;
   var ratio = canvas.width / canvas.height;
+  var near = 0.01;
+  var far = 30;
+  var viewType = "Perspective";
+
   /*
   var lastTime;
   var lastTime = { 'a': 0, 'w': 0, 's': 0, 'd': 0 };
   var flag = {'a': false, 'w': false, 's': false, 'd': false};
 */
   setLookAt([8, 2, 8], [9, 3, 8], [0, 1, 0]);
-  setPerspective(75, ratio, 0.01, 100);
+  setPerspective(fov, ratio, near, far);
   init();
 
   function setLookAt(a, b, c){
@@ -25,9 +29,12 @@ var Camera = () => {
   }
 
   function setPerspective(fov, aspect, near, far){
-    proj.setPerspective(fov, aspect, near, far)
+    if(viewType == "Perspective")
+      proj.setPerspective(fov, aspect, near, far)
+    else
+      proj.setOrtho(aspect * -2, aspect * 2, -2, 2, near, far)
   }
-
+/*
   function setMove(){
     var getStep = {
       'a' : (from, to, t) => { return to.minus(from).cross(up).normalize().scale(speed * t); }, 
@@ -50,13 +57,38 @@ var Camera = () => {
   function setFlag(){
     flag['a'] = flag['d'] = flag['w'] = flag['s'] = false;
   }
-
+*/
   function init(){
+    var slider_near = document.getElementById("slider-near");
+    slider_near.onchange = (ev) => { 
+      near = +ev.target.value;
+      setPerspective(fov, ratio, near, far);
+    }
+
+    var slider_far = document.getElementById("slider-far");
+    slider_far.onchange = (ev) => {
+      far = +ev.target.value; 
+      setPerspective(fov, ratio, near, far);
+    }
+
+    var button_view = document.getElementById("view");
+    button_view.onmousedown = (ev) => {
+      if(viewType == "Perspective") {
+        sendTextToHTML("Perspective", "view");
+        viewType = "Orthographic";
+      }
+      else {
+        sendTextToHTML("Orthographic", "view");
+        viewType = "Perspective";
+      }
+      setPerspective(fov, ratio, near, far)
+    }
+
     canvas.onwheel = (ev) => {
       fov += ev.wheelDelta / 10;
       if(fov > 100) fov = 100;
       else if(fov < 30) fov = 30;
-      setPerspective(fov, ratio, 0.01, 100);
+      setPerspective(fov, ratio, near, far);
     }
 
     window.onresize = (ev) => {
@@ -65,7 +97,7 @@ var Camera = () => {
 //      gl = getWebGLContext(canvas);
       gl.viewport(0, 0, canvas.width, canvas.height);
       ratio = canvas.width / canvas.height;
-      setPerspective(fov, ratio, 0.01, 100);
+      setPerspective(fov, ratio, near, far);
     }
 
     document.onkeydown = (ev) => {      
