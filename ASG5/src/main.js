@@ -8,6 +8,9 @@ var DEBUG_FLAG_CUBE = false
 var DEBUG_VERTEX = false
 var textures = [new Image(), new Image(), new Image()]
 var textureObjs = []
+var worldSize = 1
+var cat_geometry, teapot_geometry
+var roadData = []
 
 function main() {
   canvas = document.getElementsByTagName("canvas")[0]
@@ -21,14 +24,58 @@ function main() {
   shader_normal  = createShader(gl, VSHADER, FSHADER)
   shader_texture = createShader(gl, VSHADER_TEXTURE, FSHADER_TEXTURE)
   gl.enable(gl.DEPTH_TEST)
+  useShader(gl, shader_texture)
 
   scene = new Scene()
   camera = Camera()
 
-  loadImage("external/textures/grass.png", (e) => {textures[0] = e.target;})
-  loadImage("external/textures/sand.png",  (e) => {textures[1] = e.target;})
-  loadImage("external/textures/water.png", (e) => {textures[2] = e.target;})
-  loadMap()
+  loadImage("external/textures/grass.png",    (e) => {textures[0] = e.target;})
+  loadImage("external/textures/sand.png",     (e) => {textures[1] = e.target;})
+  loadImage("external/textures/water.png",    (e) => {textures[2] = e.target;})
+  
+  loadImage("external/textures/cat_diff.jpg", (e) => {
+    textures[3] = e.target;
+    loadServerFile("external/OBJ/cat.obj", function(data) {
+      cat_geometry = new LoadedOBJ (data);
+      cat_geometry.image = textures[3];
+//      geometry.modelMatrix.translate(7, 1.5, 7);
+      scene.addGeometry(cat_geometry);
+      
+//      loadMap()
+    })
+  })
+  loadImage("external/textures/TeapotTex.png", (e) => {
+    textures[4] = e.target;
+    loadServerFile("external/OBJ/teapot.obj", function(data) {
+      teapot_geometry = new LoadedOBJ (data);
+      teapot_geometry.image = textures[4];
+      teapot_geometry.modelMatrix.translate(9, 3, 9);
+      teapot_geometry.lastTime = Date.now();
+      teapot_geometry.updateAnimation = () => {
+        var delta = (Date.now() - teapot_geometry.lastTime) / 50.
+        teapot_geometry.modelMatrix.rotate (delta, 0, 1, 0)
+        teapot_geometry.lastTime = Date.now()
+      }
+      scene.addGeometry(teapot_geometry);
+      loadMap()
+      
+    })
+  })
+  
+  /*
+  cat_data = loadServerFile("external/OBJ/cat.obj", function(data) {
+    var geometry = new LoadedOBJ (data);
+    geometry.image = textures[3];
+    geometry.modelMatrix.translate(8, 2, 8);
+    scene.addGeometry(geometry);
+    console.log(geometry)
+  })
+  */
+
+  
+
+  initTexture()
+
 }
 
 function loadMap() {
@@ -45,14 +92,20 @@ function loadMap() {
 
     for(var i = 0; i < canvas.width; ++i)
       for(var j = 0; j < canvas.height; ++j) {
+        roadData[i * 16 + j] = 0;
+        
         var base = (i * 16 + j) * 4
         if(colorData[base + 3] > 0) {
           for(var k = 0; k < 3; ++k) {
             if(colorData[base + k] == 0) {
+              if(k == 1) {
+                roadData[i * 16 + j] = 1;
+              }
+
               var num = colorData[base + 3] / 51;
               for (var t = 0; t < num; ++ t) {
-                var geometry = new MultiTextureCube (1, 0, 0, textures[k]);
-                geometry.modelMatrix.translate(i, t, j);
+                var geometry = new MultiTextureCube (1 * worldSize, 0, 0, textures[k]);
+                geometry.modelMatrix.translate(i * worldSize, t * worldSize, j * worldSize);
                 scene.addGeometry (geometry);
               }
               break;
@@ -60,9 +113,9 @@ function loadMap() {
           }
         }
       }
-      initTexture()
+//      initTexture()
   }
-  map.src = "external/textures/map.png"
+  map.src = "external/textures/map5.png"
 }
 
 function initTexture() {
@@ -84,6 +137,7 @@ function initTexture() {
 }
 
 function tick() {
+  scene.updateAnimation()
   scene.render()
   window.requestAnimationFrame(tick)
 }

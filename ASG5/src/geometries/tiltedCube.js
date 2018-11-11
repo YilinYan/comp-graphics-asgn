@@ -56,6 +56,7 @@ class TiltedCube extends Geometry {
   /**
    * Updates the animation of the TiltedCube. Should make it rotate.
    */
+  /*
   updateAnimation() {
       var delta = (Date.now() - this.startTime) / 50.
       var t1 = new Matrix4().setTranslate (-this.centerX, -this.centerY, 0)
@@ -63,4 +64,5 @@ class TiltedCube extends Geometry {
       var t2 = new Matrix4().setTranslate (this.centerX, this.centerY, 0)
       this.modelMatrix = t2.multiply(r).multiply(t1)
   }
+  */
 }

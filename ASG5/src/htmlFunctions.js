@@ -32,3 +32,15 @@ function loadImage(src, callBack) {
     }
     image.src = src;
 }
+
+function loadServerFile(filePath, callBack) {
+    var result = null;
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("GET", filePath, false);
+    xmlhttp.send();
+    if (xmlhttp.status==200) {
+      result = xmlhttp.responseText;
+      callBack(result);
+    }
+    return result;
+  }

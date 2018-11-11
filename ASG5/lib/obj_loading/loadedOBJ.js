@@ -179,16 +179,16 @@ class LoadedOBJ extends Geometry {
     this.modelMatrix = scaleMatrix.multiply(this.modelMatrix);
   }
   //加了animation
-  
+  /*
   updateAnimation() {
     var delta = (Date.now() - this.lastTime) / 50.
     this.modelMatrix.rotate (delta, 0, 1, 0)
     this.lastTime = Date.now()
   }
-
+*/
   render() {
     if(this.image) {
-      useShader(gl, shader_texture)
+ //     useShader(gl, shader_texture)
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1)
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, this.image)
       sendUniformImageToGLSL ("u_sampler")

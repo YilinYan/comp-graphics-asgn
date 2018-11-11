@@ -5,7 +5,7 @@ var Camera = () => {
   var from        = new Vector3()
   var to          = new Vector3()
   var up          = new Vector3()
-  var speed       = 0.1;
+  var speed       = 0.1 * worldSize;
   var rotateSpeed = 0.3;
   var lastMouse;
   var fov = 75;
@@ -19,13 +19,33 @@ var Camera = () => {
   var lastTime = { 'a': 0, 'w': 0, 's': 0, 'd': 0 };
   var flag = {'a': false, 'w': false, 's': false, 'd': false};
 */
-  setLookAt([8, 2, 8], [9, 3, 8], [0, 1, 0]);
+  setLookAt([13 * worldSize, 2 * worldSize, 6.75 * worldSize], 
+            [12 * worldSize, 3 * worldSize, 6.75 * worldSize], 
+            [0, 1, 0]);
   setPerspective(fov, ratio, near, far);
   init();
 
   function setLookAt(a, b, c){
+
+    if(cat_geometry) {
+      var A = new Vector3(a); 
+      var B = new Vector3(b);
+
+      var step = A.add(B.minus(A).scale(0.01)).elements
+      var rotate = B.minus(A).elements
+
+      var t = Math.floor(step[0]) * 16 + Math.floor(step[2])
+      console.log(t, roadData[t])
+      if(roadData[t] != 1) return;
+
+      cat_geometry.modelMatrix
+      .setTranslate(step[0], 0.9, step[2])
+      .rotate(Math.atan2(rotate[0], rotate[2]) * 180 / Math.PI, 0, 1, 0);
+    }
+
     from = new Vector3(a); to = new Vector3(b); up = new Vector3(c);
     view.setLookAt(a[0], a[1], a[2], b[0], b[1], b[2], c[0], c[1], c[2])
+
   }
 
   function setPerspective(fov, aspect, near, far){
