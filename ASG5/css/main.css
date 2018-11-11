@@ -1,7 +1,5 @@
 canvas {
     position: absolute;
-    left:50%;
-    margin-left: -250px;
-    cursor: pointer;
-    background-color: black;
+    cursor: none;
+    background-color: rgb(211, 112, 112);
 }

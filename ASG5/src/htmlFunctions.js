@@ -13,7 +13,7 @@ function loadFile(file, callBack) {
     reader.onload = callBack
     reader.readAsBinaryString(file)
 }
-
+/*
 function loadImage(src, callBack) {
     var reader = new FileReader()
     var image = new Image()
@@ -22,4 +22,13 @@ function loadImage(src, callBack) {
         image.src = reader.result
     }
     reader.readAsDataURL(src);
+}
+*/
+
+function loadImage(src, callBack) {
+    var image = new Image();
+    image.onload = (ev) => {
+        callBack(ev);
+    }
+    image.src = src;
 }

@@ -5,15 +5,19 @@ var Camera = () => {
   var from        = new Vector3()
   var to          = new Vector3()
   var up          = new Vector3()
-  var speed       = 0.02;
+  var speed       = 0.1;
   var rotateSpeed = 0.3;
   var lastMouse;
+  var fov = 75;
+  var ratio = canvas.width / canvas.height;
   /*
   var lastTime;
   var lastTime = { 'a': 0, 'w': 0, 's': 0, 'd': 0 };
   var flag = {'a': false, 'w': false, 's': false, 'd': false};
 */
-  init()
+  setLookAt([8, 2, 8], [9, 3, 8], [0, 1, 0]);
+  setPerspective(75, ratio, 0.01, 100);
+  init();
 
   function setLookAt(a, b, c){
     from = new Vector3(a); to = new Vector3(b); up = new Vector3(c);
@@ -48,6 +52,22 @@ var Camera = () => {
   }
 
   function init(){
+    canvas.onwheel = (ev) => {
+      fov += ev.wheelDelta / 10;
+      if(fov > 100) fov = 100;
+      else if(fov < 30) fov = 30;
+      setPerspective(fov, ratio, 0.01, 100);
+    }
+
+    window.onresize = (ev) => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+//      gl = getWebGLContext(canvas);
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      ratio = canvas.width / canvas.height;
+      setPerspective(fov, ratio, 0.01, 100);
+    }
+
     document.onkeydown = (ev) => {      
       var getStep = {
         'a' : (from, to) => { return to.minus(from).cross(up); }, 
@@ -72,7 +92,7 @@ var Camera = () => {
       lastMouse = new Vector3([0, ev.clientX, ev.clientY]);
     }
 
-    document.onmousemove = (ev) => {
+    canvas.onmousemove = (ev) => {
       if(!lastMouse) {
         lastMouse = new Vector3([0, ev.clientX, ev.clientY]);
         return;

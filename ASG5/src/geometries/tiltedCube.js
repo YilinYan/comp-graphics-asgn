@@ -32,7 +32,7 @@ class TiltedCube extends Geometry {
    * @private
    */
   generateCubeVertices(size, centerX, centerY) {
-      size /= 500
+      size /= 2;
       var x = [0, 0, 0, 0, 1, -1]
       var y = [0, 0, 1, -1, 0, 0]
       var z = [1, -1, 0, 0, 0, 0]
@@ -45,9 +45,9 @@ class TiltedCube extends Geometry {
               if (x[i] != 0) { newX = x[i]; newY = a[j]; newZ = b[j]; }
               else if (y[i] != 0) { newX = a[j]; newY = y[i]; newZ = b[j];}
               else { newX = a[j]; newY = b[j]; newZ = z[i];}
-              newX = centerX + size * newX
-              newY = centerY + size * newY
-              newZ = size * newZ
+              newX = centerX + size * newX + size;
+              newY = centerY + size * newY + size;
+              newZ = size * newZ + size;
               this.vertices.push (new Vertex (newX, newY, newZ))
           }
       }
