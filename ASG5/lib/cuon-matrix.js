@@ -727,6 +727,44 @@ Vector3.prototype.normalize = function() {
    return this;
 };
 
+Vector3.prototype.scale = function(scale) {
+  var v = this.elements;
+  v[0] *= scale;
+  v[1] *= scale;
+  v[2] *= scale;
+  return this;
+}
+
+Vector3.prototype.cross = function(to) {
+  var a = this.elements;
+  var b = to.elements;
+  var c = new Vector3();
+  c.elements[0] = a[1] * b[2] - a[2] * b[1];
+  c.elements[1] = a[2] * b[0] - a[0] * b[2];
+  c.elements[2] = a[0] * b[1] - a[1] * b[0];
+  return c;
+}
+
+Vector3.prototype.minus = function(to) {
+  var a = this.elements;
+  var b = to.elements;
+  var c = new Vector3();
+  c.elements[0] = a[0] - b[0];
+  c.elements[1] = a[1] - b[1];
+  c.elements[2] = a[2] - b[2];
+  return c;
+}
+
+Vector3.prototype.add = function(to) {
+  var a = this.elements;
+  var b = to.elements;
+  var c = new Vector3();
+  c.elements[0] = a[0] + b[0];
+  c.elements[1] = a[1] + b[1];
+  c.elements[2] = a[2] + b[2];
+  return c;
+}
+
 /**
   * Vector length.
   * @return Length of the vector

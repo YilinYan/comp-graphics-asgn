@@ -1,14 +1,94 @@
 
 var Camera = () => {
-  var view = new Matrix4();
-  var proj = new Matrix4();
+  var view        = new Matrix4()
+  var proj        = new Matrix4()
+  var from        = new Vector3()
+  var to          = new Vector3()
+  var up          = new Vector3()
+  var speed       = 0.02;
+  var rotateSpeed = 0.3;
+  var lastMouse;
+  /*
+  var lastTime;
+  var lastTime = { 'a': 0, 'w': 0, 's': 0, 'd': 0 };
+  var flag = {'a': false, 'w': false, 's': false, 'd': false};
+*/
+  init()
 
-  function setLookAt(from, to, up){
-    view.setLookAt(from[0], from[1], from[2], to[0], to[1], to[2], up[0], up[1], up[2])
+  function setLookAt(a, b, c){
+    from = new Vector3(a); to = new Vector3(b); up = new Vector3(c);
+    view.setLookAt(a[0], a[1], a[2], b[0], b[1], b[2], c[0], c[1], c[2])
   }
 
   function setPerspective(fov, aspect, near, far){
     proj.setPerspective(fov, aspect, near, far)
+  }
+
+  function setMove(){
+    var getStep = {
+      'a' : (from, to, t) => { return to.minus(from).cross(up).normalize().scale(speed * t); }, 
+      'd' : (from, to, t) => { return up.cross(to.minus(from)).normalize().scale(speed * t); },
+      'w' : (from, to, t) => { return from.minus(to).normalize().scale(speed * t); },
+      's' : (from, to, t) => { return to.minus(from).normalize().scale(speed * t); }
+    }
+    if(flag['a']) {
+      var step = getStep['a'](from, to, Date.now() - lastTime);
+      //      lastTime[ev.key] = Date.now();
+      step.elements[1] = 0;
+      step = step.normalize().scale(speed * 10);
+      from = from.minus(step);
+      to = to.minus(step);
+      setLookAt(from.elements, to.elements, up.elements);
+    }
+    lastTime = Date.now();
+  }
+
+  function setFlag(){
+    flag['a'] = flag['d'] = flag['w'] = flag['s'] = false;
+  }
+
+  function init(){
+    document.onkeydown = (ev) => {      
+      var getStep = {
+        'a' : (from, to) => { return to.minus(from).cross(up); }, 
+        'd' : (from, to) => { return up.cross(to.minus(from)); },
+        'w' : (from, to) => { return from.minus(to); },
+        's' : (from, to) => { return to.minus(from); }
+      }
+      switch(ev.key) {
+        case 'a': case 'w': case 's': case 'd':
+          var step = getStep[ev.key](from, to);
+          step.elements[1] = 0;
+          step = step.normalize().scale(speed);
+
+          from = from.minus(step);
+          to = to.minus(step);
+          setLookAt(from.elements, to.elements, up.elements);
+        default:
+      }
+    }
+
+    canvas.onmouseenter = (ev) => {
+      lastMouse = new Vector3([0, ev.clientX, ev.clientY]);
+    }
+
+    document.onmousemove = (ev) => {
+      if(!lastMouse) {
+        lastMouse = new Vector3([0, ev.clientX, ev.clientY]);
+        return;
+      }
+      var nowMouse = new Vector3([0, ev.clientX, ev.clientY]);
+      var step = nowMouse.minus(lastMouse).scale(rotateSpeed).elements;
+      if(new Vector3(step).length() < 1) return;
+
+      var axis = up.cross(to.minus(from)).normalize().elements;
+      var rotate = new Matrix4().rotate(-step[1], 0, 1, 0).rotate(step[2], axis[0], axis[1], axis[2]);
+      var d = rotate.multiplyVector3(to.minus(from));
+      to = from.add(d);
+      setLookAt(from.elements, to.elements, up.elements);
+
+      lastMouse = nowMouse;
+    }
   }
 
   return {

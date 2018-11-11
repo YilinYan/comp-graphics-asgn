@@ -22,16 +22,9 @@ function main() {
 
   scene = new Scene()
   camera = Camera()
-  camera.setLookAt([1, 0, 0.5], [0, 0, 0], [0, 1, 0])
+  camera.setLookAt([1, 0, 0], [0, 0, 0], [0, 1, 0])
   camera.setPerspective(90, 1, 0.01, 100)
   addCube()
-//  scene.render()
-
-//  initEventHandelers()
-/*
-  addCube()
-  tick()
-*/
 }
 
 function addCube() {
@@ -44,7 +37,12 @@ function addCube() {
   image.onload = () => {
     var geometry = new MultiTextureCube (100, 0, 0, image)
     scene.addGeometry (geometry)
-    scene.render()
+    tick()
   }
   image.src = "external/textures/checkerboard.png"
+}
+
+function tick() {
+  scene.render()
+  window.requestAnimationFrame(tick)
 }
