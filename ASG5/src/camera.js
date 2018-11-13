@@ -6,7 +6,7 @@ var Camera = () => {
   var to          = new Vector3()
   var up          = new Vector3()
   var speed       = 0.1 * worldSize;
-  var rotateSpeed = 0.3;
+  var rotateSpeed = 0.5;
   var lastMouse;
   var fov = 75;
   var ratio = canvas.width / canvas.height;
@@ -19,8 +19,8 @@ var Camera = () => {
   var lastTime = { 'a': 0, 'w': 0, 's': 0, 'd': 0 };
   var flag = {'a': false, 'w': false, 's': false, 'd': false};
 */
-  setLookAt([13 * worldSize, 2 * worldSize, 6.75 * worldSize], 
-            [12 * worldSize, 3 * worldSize, 6.75 * worldSize], 
+  setLookAt([12.68 * worldSize, 2 * worldSize, 6.5 * worldSize], 
+            [12.55 * worldSize, 3 * worldSize, 6.5 * worldSize], 
             [0, 1, 0]);
   setPerspective(fov, ratio, near, far);
   init();
@@ -31,7 +31,8 @@ var Camera = () => {
       var A = new Vector3(a); 
       var B = new Vector3(b);
 
-      var step = A.add(B.minus(A).scale(0.01)).elements
+      var step = A.elements;
+ //     var step = A.add(B.minus(A).scale(0.01)).elements
       var rotate = B.minus(A).elements
 
       var t = Math.floor(step[0]) * 16 + Math.floor(step[2])
@@ -43,9 +44,11 @@ var Camera = () => {
       .rotate(Math.atan2(rotate[0], rotate[2]) * 180 / Math.PI, 0, 1, 0);
     }
 
+
     from = new Vector3(a); to = new Vector3(b); up = new Vector3(c);
     view.setLookAt(a[0], a[1], a[2], b[0], b[1], b[2], c[0], c[1], c[2])
 
+    console.log(from, to)
   }
 
   function setPerspective(fov, aspect, near, far){
@@ -133,9 +136,9 @@ var Camera = () => {
           step.elements[1] = 0;
           step = step.normalize().scale(speed);
 
-          from = from.minus(step);
-          to = to.minus(step);
-          setLookAt(from.elements, to.elements, up.elements);
+          var A = from.minus(step);
+          var B = to.minus(step);
+          setLookAt(A.elements, B.elements, up.elements);
         default:
       }
     }
