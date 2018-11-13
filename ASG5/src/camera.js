@@ -159,8 +159,8 @@ var Camera = () => {
       var axis = up.cross(to.minus(from)).normalize().elements;
       var rotate = new Matrix4().rotate(-step[1], 0, 1, 0).rotate(step[2], axis[0], axis[1], axis[2]);
       var d = rotate.multiplyVector3(to.minus(from));
-      to = from.add(d);
-      setLookAt(from.elements, to.elements, up.elements);
+      var newTo = from.add(d);
+      setLookAt(from.elements, newTo.elements, up.elements);
 
       lastMouse = nowMouse;
     }
