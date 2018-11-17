@@ -11,6 +11,7 @@ var textureObjs = []
 var worldSize = 1
 var cat_geometry, teapot_geometry
 var mapData = []
+var mapHeight = []
 
 function main() {
   canvas = document.getElementsByTagName("canvas")[0]
@@ -58,7 +59,6 @@ function main() {
       }
       scene.addGeometry(teapot_geometry);
       loadMap()
-      
     })
   })
 }
@@ -78,26 +78,29 @@ function loadMap() {
     for(var i = 0; i < canvas.width; ++i)
       for(var j = 0; j < canvas.height; ++j) {
         mapData[i * 16 + j] = 0;
-        
         var base = (i * 16 + j) * 4
+
         if(colorData[base + 3] > 0) {
           for(var k = 0; k < 3; ++k) {
             if(colorData[base + k] == 0) {
-              if(k == 1) {
-                mapData[i * 16 + j] = 1;
-              }
-
+              mapData[i * 16 + j] = k;
               var num = colorData[base + 3] / 51;
-              for (var t = 0; t < num; ++ t) {
-                var geometry = new MultiTextureCube (1 * worldSize, 0, 0, textures[k]);
-                geometry.modelMatrix.translate(i * worldSize, t * worldSize, j * worldSize);
-                scene.addGeometry (geometry);
-              }
+              mapHeight[i * 16 + j] = num;
               break;
             }
           }
         }
       }
+    
+    for(var i = 0; i < canvas.width; ++i)
+      for(var j = 0; j < canvas.height; ++j)
+        for(var t = 0; t < mapHeight[i * 16 + j]; ++t) {
+          var k = mapData[i * 16 + j];
+          var geometry = new MultiTextureCube (1 * worldSize, 0, 0, textures[k]);
+          geometry.modelMatrix.translate(i * worldSize, t * worldSize, j * worldSize);
+          scene.addGeometry (geometry);
+        }
+
     initTexture()
   }
   map.src = "external/textures/map5.png"

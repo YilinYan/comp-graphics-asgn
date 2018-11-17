@@ -14,11 +14,6 @@ var Camera = () => {
   var far = 30;
   var viewType = "Perspective";
 
-  /*
-  var lastTime;
-  var lastTime = { 'a': 0, 'w': 0, 's': 0, 'd': 0 };
-  var flag = {'a': false, 'w': false, 's': false, 'd': false};
-*/
   setLookAt([12.68 * worldSize, 2 * worldSize, 6.5 * worldSize], 
             [12.55 * worldSize, 3 * worldSize, 6.5 * worldSize], 
             [0, 1, 0]);
@@ -57,30 +52,7 @@ var Camera = () => {
     else
       proj.setOrtho(aspect * -2, aspect * 2, -2, 2, near, far)
   }
-/*
-  function setMove(){
-    var getStep = {
-      'a' : (from, to, t) => { return to.minus(from).cross(up).normalize().scale(speed * t); }, 
-      'd' : (from, to, t) => { return up.cross(to.minus(from)).normalize().scale(speed * t); },
-      'w' : (from, to, t) => { return from.minus(to).normalize().scale(speed * t); },
-      's' : (from, to, t) => { return to.minus(from).normalize().scale(speed * t); }
-    }
-    if(flag['a']) {
-      var step = getStep['a'](from, to, Date.now() - lastTime);
-      //      lastTime[ev.key] = Date.now();
-      step.elements[1] = 0;
-      step = step.normalize().scale(speed * 10);
-      from = from.minus(step);
-      to = to.minus(step);
-      setLookAt(from.elements, to.elements, up.elements);
-    }
-    lastTime = Date.now();
-  }
 
-  function setFlag(){
-    flag['a'] = flag['d'] = flag['w'] = flag['s'] = false;
-  }
-*/
   function init(){
     var slider_near = document.getElementById("slider-near");
     slider_near.onchange = (ev) => { 
