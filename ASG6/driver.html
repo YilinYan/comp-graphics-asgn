@@ -1,0 +1,50 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title> </title>
+
+        <!-- Include external libraries -->
+        <script src = "lib/webgl-utils.js"></script>
+        <script src = "lib/webgl-debug.js"></script>
+        <script src = "lib/updated-cuon-utils.js"></script>
+        <script src = "lib/cuon-matrix.js"></script>
+
+        <!-- Include internal functions -->
+        <script src = "src/glslFunctions.js"></script>
+        <script src = "src/htmlFunctions.js"></script>
+
+        <!-- Include scene objects -->
+        <script src = "src/scene/scene.js"></script>
+        <script src = "src/scene/vertex.js"></script>
+        <script src = "src/scene/geometry.js"></script>
+
+        <!-- Include animated geometric objects -->
+        <script src = "src/geometries/tiltedCube.js"></script>
+        <script src = "src/geometries/texturedCube.js"></script>
+
+        <!-- Include shaders -->
+        <script src = "src/shaders.js"></script>
+
+        <!-- OBJ Loading -->
+        <script src = "lib/obj_loading/webgl-obj-loader.js"></script>
+        <script src = "lib/obj_loading/loadedOBJ.js"></script>
+
+        <!-- Include main program -->
+        <script src = "src/main.js"></script>
+
+        <script src = "src/camera.js"></script>
+
+        <link rel="stylesheet" href="css/main.css">
+    </head>
+
+    <body onload = "main()">
+        <canvas id = "canvas"></canvas>
+        <label id="near">near
+            <input type="range" min='0.001' max='8' value='0.01' step=any class="slider" id="slider-near">
+        </label>
+        <label id="far">far
+            <input type="range" min='2' max='30' value='30' step=any class="slider" id="slider-far">
+        </label>
+        <button id='view'>Orthographic</button>
+    </body>
+</html>

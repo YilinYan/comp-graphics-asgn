@@ -1,0 +1,22 @@
+canvas {
+    position: absolute;
+    background-color: rgb(211, 112, 112);
+}
+
+#near {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+#far {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+}
+
+button {
+    position: absolute;
+    top: 50px;
+    left: 10px;
+}
