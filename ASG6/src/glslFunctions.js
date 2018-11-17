@@ -125,8 +125,8 @@ function sendUniformVec4ToGLSL(val, uniformName) {
     console.log ("sendUniformVec4ToGLSL: " + uniformName + "  " + val)
   }
   uniform = gl.getUniformLocation(gl.program, uniformName);
-  if(val.length == 2) gl.uniform4f(uniform, val[0], val[1])
-  else if(val.length == 3) gl.uniform4f(uniform, val[0], val[1], val[2])
+  if(val.length == 2) gl.uniform2f(uniform, val[0], val[1])
+  else if(val.length == 3) gl.uniform3f(uniform, val[0], val[1], val[2])
   else if(val.length == 4) gl.uniform4f(uniform, val[0], val[1], val[2], val[3])
 }
 

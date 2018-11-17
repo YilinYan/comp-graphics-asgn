@@ -8,6 +8,7 @@
 
 var m_points = null;
 var m_uvs = null;
+var m_normals = null;
 
 class MultiTextureCube extends TiltedCube {
   /**
@@ -23,6 +24,7 @@ class MultiTextureCube extends TiltedCube {
     this.generateUVCoordinates()
     this.points = this.getPoints()
     this.uvs = this.getUvs()
+    this.normals = this.getNormals()
   }
 
   /**
@@ -46,7 +48,7 @@ class MultiTextureCube extends TiltedCube {
         m_points[i * 3 + j] = p
       })
     })
-    return this.points = m_points
+    return m_points
   }
 
   getUvs() {
@@ -57,7 +59,18 @@ class MultiTextureCube extends TiltedCube {
         m_uvs[i * 2 + j] = uv
       })
     })
-    return this.uvs = m_uvs
+    return m_uvs
+  }
+
+  getNormals() {
+    if(m_normals) return m_normals;
+    m_normals = new Float32Array (this.vertices.length * 3)
+    this.vertices.forEach((v, i) => {
+      v.normal.elements.forEach((norm, j) => {
+        m_normals[i * 3 + j] = norm
+      })
+    })
+    return m_normals
   }
 
   /**
@@ -73,7 +86,9 @@ class MultiTextureCube extends TiltedCube {
 //    sendUniformImageToGLSL ("u_sampler") 
     sendUniformMatToGLSL (this.modelMatrix.elements, "transMatrix")
 //    sendAttributeBufferToGLSL (this.points, this.vertices.length, "position")  
-//    sendAttributeBufferToGLSL (this.uvs, this.vertices.length, "a_texCoord")  
+//    sendAttributeBufferToGLSL (this.uvs, this.vertices.length, "a_texCoord")
+//    sendAttributeBufferToGLSL (this.normals, this.vertices.length, "a_normal")
+
     tellGLSLToDrawCurrentBuffer (this.vertices.length)
   }
 

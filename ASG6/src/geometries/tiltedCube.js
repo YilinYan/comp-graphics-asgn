@@ -49,8 +49,10 @@ class TiltedCube extends Geometry {
               newX = centerX + size * newX + size;
               newY = centerY + size * newY + size;
               newZ = size * newZ + size;
-              this.vertices.push (new Vertex (newX, newY, newZ))
-          }
+              var vrt = new Vertex (newX, newY, newZ);
+              vrt.normal = new Vector3([x[i], y[i], z[i]]);
+              this.vertices.push (vrt);
+          }  
       }
   }
 

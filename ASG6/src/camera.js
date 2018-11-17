@@ -26,7 +26,7 @@ var Camera = () => {
       var A = new Vector3(a); 
       var B = new Vector3(b);
 
-      var step = A.add(B.minus(A).scale(0.9)).elements
+      var step = A.add(B.minus(A).scale(0.5)).elements
       var rotate = B.minus(A).elements
 
       var t = Math.floor(step[0]) * 16 + Math.floor(step[2])

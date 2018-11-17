@@ -201,7 +201,7 @@ class LoadedOBJ extends Geometry {
       sendUniformVec4ToGLSL (this.color, "color")
     }
     sendUniformMatToGLSL (this.modelMatrix.elements, "transMatrix")
-//    sendAttributeBufferToGLSL (this.points, this.vertices.length, "position")  
+//    sendAttributeBufferToGLSL (this.normals, this.vertices.length, "a_normal")  
     tellGLSLToDrawCurrentBuffer (this.vertices.length)
   }
 
@@ -218,6 +218,13 @@ class LoadedOBJ extends Geometry {
         uvs[i * 2 + j] = uv
       })
     })
+    var normals = new Float32Array (this.vertices.length * 3)
+    this.vertices.forEach((v, i) => {
+      v.normal.elements.forEach((norm, j) => {
+        normals[i * 3 + j] = norm;
+      })
+    })
+    this.normals = normals;
     this.points = points;
     this.uvs = uvs;
   }

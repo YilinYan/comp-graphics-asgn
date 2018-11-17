@@ -47,9 +47,16 @@ class Scene {
     render() {
         sendUniformMatToGLSL (camera.view.elements, "u_viewMatrix")
         sendUniformMatToGLSL (camera.proj.elements, "u_projMatrix")
+        sendUniformFloatToGLSL(0.3, "u_ambientIntensity");
+        sendUniformVec4ToGLSL([0.9, 0.9, 1.0], "u_ambientColor");
+        sendUniformFloatToGLSL(0.9, "u_diffuseIntensity");
+        sendUniformVec4ToGLSL([1.0, 1.0, 0.95], "u_diffuseColor");
+        sendUniformVec4ToGLSL([1.0, 1.0, 1.0], "u_diffuseNormal");
+
         var lastImage = null;
         var lastPoins = null;
         var lastUvs = null;
+        var lastNormals = null;
 
         this.geometries.forEach (function (geometry) {
         
@@ -66,6 +73,10 @@ class Scene {
             if(lastUvs != geometry.uvs) {
                 sendAttributeBufferToGLSL (geometry.uvs, geometry.vertices.length, "a_texCoord");
                 lastUvs = geometry.uvs;
+            }
+            if(lastNormals != geometry.normals) {
+                sendAttributeBufferToGLSL (geometry.normals, geometry.vertices.length, "a_normal");
+                lastNormals = geometry.normals;
             }
         
         geometry.render() });
