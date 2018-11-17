@@ -10,7 +10,7 @@ var textures = [new Image(), new Image(), new Image()]
 var textureObjs = []
 var worldSize = 1
 var cat_geometry, teapot_geometry
-var roadData = []
+var mapData = []
 
 function main() {
   canvas = document.getElementsByTagName("canvas")[0]
@@ -61,21 +61,6 @@ function main() {
       
     })
   })
-  
-  /*
-  cat_data = loadServerFile("external/OBJ/cat.obj", function(data) {
-    var geometry = new LoadedOBJ (data);
-    geometry.image = textures[3];
-    geometry.modelMatrix.translate(8, 2, 8);
-    scene.addGeometry(geometry);
-    console.log(geometry)
-  })
-  */
-
-  
-
-  initTexture()
-
 }
 
 function loadMap() {
@@ -92,14 +77,14 @@ function loadMap() {
 
     for(var i = 0; i < canvas.width; ++i)
       for(var j = 0; j < canvas.height; ++j) {
-        roadData[i * 16 + j] = 0;
+        mapData[i * 16 + j] = 0;
         
         var base = (i * 16 + j) * 4
         if(colorData[base + 3] > 0) {
           for(var k = 0; k < 3; ++k) {
             if(colorData[base + k] == 0) {
               if(k == 1) {
-                roadData[i * 16 + j] = 1;
+                mapData[i * 16 + j] = 1;
               }
 
               var num = colorData[base + 3] / 51;
@@ -113,7 +98,7 @@ function loadMap() {
           }
         }
       }
-//      initTexture()
+    initTexture()
   }
   map.src = "external/textures/map5.png"
 }
@@ -123,16 +108,7 @@ function initTexture() {
   gl.activeTexture(gl.TEXTURE0)
   gl.bindTexture(gl.TEXTURE_2D, texture)
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
-
-  /*
-  for (var i = 0; i < 3; ++i) {
-    textureObjs[i] = gl.createTexture()
-    gl.activeTexture(gl.TEXTURE0)
-    gl.bindTexture(gl.TEXTURE_2D, textureObjs[i])
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, textures[i])
-  }
-  */
+//  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, textures[1])
   tick()
 }
 

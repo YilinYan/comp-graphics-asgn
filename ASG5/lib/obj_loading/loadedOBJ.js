@@ -34,6 +34,8 @@ class LoadedOBJ extends Geometry {
     // Modify loadedOBJ's modelMatrix to present OBJ correctly
     this.moveOBJToCenterOfScreen(transAndScaleVal[0]);
     this.scaleOBJToFitOnScreen(transAndScaleVal[1]);
+
+    this.generateData();
   }
 
   /**
@@ -189,32 +191,34 @@ class LoadedOBJ extends Geometry {
   render() {
     if(this.image) {
  //     useShader(gl, shader_texture)
-      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1)
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, this.image)
-      sendUniformImageToGLSL ("u_sampler")
-
-      var uvs = new Float32Array (this.vertices.length * 2)
-      this.vertices.forEach((v, i) => {
-        v.uv.forEach((uv, j) => {
-          uvs[i * 2 + j] = uv
-        })
-      })
-      sendAttributeBufferToGLSL (uvs, this.vertices.length, "a_texCoord")  
+ //     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1)
+//      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, this.image)
+      
+//      sendAttributeBufferToGLSL (this.uvs, this.vertices.length, "a_texCoord")  
     }
     else {
       useShader(gl, shader_normal)
       sendUniformVec4ToGLSL (this.color, "color")
     }
+    sendUniformMatToGLSL (this.modelMatrix.elements, "transMatrix")
+//    sendAttributeBufferToGLSL (this.points, this.vertices.length, "position")  
+    tellGLSLToDrawCurrentBuffer (this.vertices.length)
+  }
 
+  generateData() {
     var points = new Float32Array (this.vertices.length * 3)
     this.vertices.forEach((v, i) => {
       v.pos.elements.forEach((p, j) => {
         points[i * 3 + j] = p
       })
     })
-
-    sendUniformMatToGLSL (this.modelMatrix.elements, "transMatrix")
-    sendAttributeBufferToGLSL (points, this.vertices.length, "position")  
-    tellGLSLToDrawCurrentBuffer (this.vertices.length)
+    var uvs = new Float32Array (this.vertices.length * 2)
+    this.vertices.forEach((v, i) => {
+      v.uv.forEach((uv, j) => {
+        uvs[i * 2 + j] = uv
+      })
+    })
+    this.points = points;
+    this.uvs = uvs;
   }
 }

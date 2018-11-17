@@ -4,6 +4,7 @@
  * @author "Your Name"
  * @this {TiltedCube}
  */
+
 class TiltedCube extends Geometry {
   /**
    * Constructor for TiltedCube.

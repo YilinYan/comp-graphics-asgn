@@ -5,6 +5,10 @@
  * @author "Your Name Here"
  * @this {MultiTextureCube}
  */
+
+var m_points = null;
+var m_uvs = null;
+
 class MultiTextureCube extends TiltedCube {
   /**
    * Constructor for MultiTextureCube
@@ -12,6 +16,7 @@ class MultiTextureCube extends TiltedCube {
    * @constructor
    * @param {String} texturePath The filepath/URL of the image used as a texture
    */
+
   constructor(size, centerX, centerY, image) {
     super (size, centerX, centerY, [1, 1, 1, 1])
     this.image = image
@@ -34,22 +39,25 @@ class MultiTextureCube extends TiltedCube {
   }
 
   getPoints() {
-    var points = new Float32Array (this.vertices.length * 3)
+    if(m_points) return m_points;
+    m_points = new Float32Array (this.vertices.length * 3)
     this.vertices.forEach((v, i) => {
       v.pos.elements.forEach((p, j) => {
-        points[i * 3 + j] = p
+        m_points[i * 3 + j] = p
       })
     })
-    return points
+    return this.points = m_points
   }
+
   getUvs() {
-    var uvs = new Float32Array (this.vertices.length * 2)
+    if(m_uvs) return m_uvs;
+    m_uvs = new Float32Array (this.vertices.length * 2)
     this.vertices.forEach((v, i) => {
       v.uv.forEach((uv, j) => {
-        uvs[i * 2 + j] = uv
+        m_uvs[i * 2 + j] = uv
       })
     })
-    return uvs
+    return this.uvs = m_uvs
   }
 
   /**
@@ -57,19 +65,15 @@ class MultiTextureCube extends TiltedCube {
    */
   render() {
  //   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1)
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, this.image)
-
+//    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, this.image)
 /*
     gl.activeTexture(gl.TEXTURE0)
     gl.bindTexture(gl.TEXTURE_2D, this.image)
 */
-
-    sendUniformImageToGLSL ("u_sampler") 
+//    sendUniformImageToGLSL ("u_sampler") 
     sendUniformMatToGLSL (this.modelMatrix.elements, "transMatrix")
-    sendUniformMatToGLSL (camera.view.elements, "u_viewMatrix")
-    sendUniformMatToGLSL (camera.proj.elements, "u_projMatrix")
-    sendAttributeBufferToGLSL (this.points, this.vertices.length, "position")  
-    sendAttributeBufferToGLSL (this.uvs, this.vertices.length, "a_texCoord")  
+//    sendAttributeBufferToGLSL (this.points, this.vertices.length, "position")  
+//    sendAttributeBufferToGLSL (this.uvs, this.vertices.length, "a_texCoord")  
     tellGLSLToDrawCurrentBuffer (this.vertices.length)
   }
 

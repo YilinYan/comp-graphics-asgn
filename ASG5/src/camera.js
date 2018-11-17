@@ -36,8 +36,8 @@ var Camera = () => {
       var rotate = B.minus(A).elements
 
       var t = Math.floor(step[0]) * 16 + Math.floor(step[2])
-      console.log(t, roadData[t])
-      if(roadData[t] != 1) return;
+//      console.log(t, roadData[t])
+      if(mapData[t] != 1) return;
 
       cat_geometry.modelMatrix
       .setTranslate(step[0], 0.9, step[2])
@@ -48,7 +48,7 @@ var Camera = () => {
     from = new Vector3(a); to = new Vector3(b); up = new Vector3(c);
     view.setLookAt(a[0], a[1], a[2], b[0], b[1], b[2], c[0], c[1], c[2])
 
-    console.log(from, to)
+//    console.log(from, to)
   }
 
   function setPerspective(fov, aspect, near, far){
