@@ -14,8 +14,8 @@ var Camera = () => {
   var far = 30;
   var viewType = "Perspective";
 
-  setLookAt([12.68 * worldSize, 2 * worldSize, 6.5 * worldSize], 
-            [12.55 * worldSize, 3 * worldSize, 6.5 * worldSize], 
+  setLookAt([12.68 * worldSize, 3 * worldSize, 6.5 * worldSize], 
+            [12.55 * worldSize, 4 * worldSize, 6.5 * worldSize], 
             [0, 1, 0]);
   setPerspective(fov, ratio, near, far);
   init();
@@ -33,7 +33,7 @@ var Camera = () => {
       if(mapData[t] != 1) return;
 
       cat_geometry.modelMatrix
-      .setTranslate(A.elements[0], 0.9, A.elements[2])
+      .setTranslate(A.elements[0], 1.9, A.elements[2])
       .rotate(Math.atan2(rotate[0], rotate[2]) * 180 / Math.PI, 0, 1, 0);
     }
 

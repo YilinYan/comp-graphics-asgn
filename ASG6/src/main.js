@@ -49,7 +49,7 @@ function main() {
     loadServerFile("external/OBJ/teapot.obj", function(data) {
       teapot_geometry = new LoadedOBJ (data);
       teapot_geometry.image = textures[4];
-      teapot_geometry.modelMatrix.translate(9, 3, 9);
+      teapot_geometry.modelMatrix.translate(9, 4, 9);
       teapot_geometry.lastTime = Date.now();
       teapot_geometry.updateAnimation = () => {
         var delta = (Date.now() - teapot_geometry.lastTime) / 50.

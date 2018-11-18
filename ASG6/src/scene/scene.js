@@ -22,7 +22,9 @@ class Scene {
   }
 
   init() {
-      
+      document.getElementById("toon").onmousedown = () => {
+          this.toonShading = 1.0;
+      }
   }
 
   /**
