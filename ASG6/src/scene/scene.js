@@ -14,6 +14,15 @@ class Scene {
     this.geometries = []; // Geometries being drawn on canvas
     gl.clearColor (0., 0., 0., 1.)
     gl.clear (gl.COLOR_BUFFER_BIT)
+    this.lastTime = Date.now();
+    this.diffuseMatrix = new Matrix4();
+    this.normalShading = 0.0;
+    this.toonShading = 0.0;
+    this.init();
+  }
+
+  init() {
+      
   }
 
   /**
@@ -45,13 +54,23 @@ class Scene {
    * Renders all the Geometry within the scene.
    */
     render() {
+        var delta = (Date.now() - this.lastTime) / 100.
+        this.diffuseMatrix.rotate (delta, 1, 0, -1);
+        var diffuse = this.diffuseMatrix.multiplyVector3(new Vector3([1.0, 0.0, 1.0]));
+//        var diffuse = this.diffuseMatrix.multiplyVector3(new Vector3([-1.0, 0.0, 0.0]));
+        this.lastTime = Date.now();
+
         sendUniformMatToGLSL (camera.view.elements, "u_viewMatrix")
         sendUniformMatToGLSL (camera.proj.elements, "u_projMatrix")
-        sendUniformFloatToGLSL(0.3, "u_ambientIntensity");
+        sendUniformFloatToGLSL(0.2, "u_ambientIntensity");
         sendUniformVec4ToGLSL([0.9, 0.9, 1.0], "u_ambientColor");
-        sendUniformFloatToGLSL(0.9, "u_diffuseIntensity");
+        sendUniformFloatToGLSL(0.7, "u_diffuseIntensity");
         sendUniformVec4ToGLSL([1.0, 1.0, 0.95], "u_diffuseColor");
-        sendUniformVec4ToGLSL([1.0, 1.0, 1.0], "u_diffuseNormal");
+        sendUniformVec4ToGLSL(diffuse.elements, "u_diffuseNormal");
+        sendUniformFloatToGLSL(this.normalShading, "u_normalShading");
+        sendUniformFloatToGLSL(this.toonShading, "u_toonShading");
+        sendUniformFloatToGLSL(0.6, "u_specularIntensity");
+        sendUniformVec4ToGLSL (camera.from.elements, "u_cameraPosition");
 
         var lastImage = null;
         var lastPoins = null;

@@ -42,8 +42,6 @@ function main() {
 //      cat_geometry.modelMatrix.setScale(0.5, 0.5, 0.5);
 //      geometry.modelMatrix.translate(7, 1.5, 7);
       scene.addGeometry(cat_geometry);
-      
-//      loadMap()
     })
   })
   loadImage("external/textures/TeapotTex.png", (e) => {

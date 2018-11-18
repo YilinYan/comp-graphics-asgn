@@ -37,7 +37,7 @@ var Camera = () => {
       .rotate(Math.atan2(rotate[0], rotate[2]) * 180 / Math.PI, 0, 1, 0);
     }
 
-    from = new Vector3(a); to = new Vector3(b); up = new Vector3(c);
+    from.elements = a; to = new Vector3(b); up = new Vector3(c);
     view.setLookAt(a[0], a[1], a[2], b[0], b[1], b[2], c[0], c[1], c[2])
   }
 
@@ -106,8 +106,16 @@ var Camera = () => {
           var A = from.minus(step);
           var B = to.minus(step);
           setLookAt(A.elements, B.elements, up.elements);
+          break;
+        case 'n':
+          scene.normalShading = 1.0;
         default:
       }
+    }
+
+    document.onkeyup = (ev) => {
+      if(ev.key == 'n')
+        scene.normalShading = 0.0;
     }
 
     canvas.onmouseenter = (ev) => {
@@ -134,6 +142,6 @@ var Camera = () => {
   }
 
   return {
-    view, proj, setLookAt, setPerspective
+    view, proj, setLookAt, setPerspective, from
   }
 }
