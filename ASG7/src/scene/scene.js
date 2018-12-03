@@ -62,6 +62,7 @@ class Scene {
 //        var diffuse = this.diffuseMatrix.multiplyVector3(new Vector3([-1.0, 0.0, 0.0]));
         this.lastTime = Date.now();
 
+        sendUniformVec4ToGLSL([4, 1, 4], "u_lightPos");
         sendUniformMatToGLSL (camera.view.elements, "u_viewMatrix")
         sendUniformMatToGLSL (camera.proj.elements, "u_projMatrix")
         sendUniformFloatToGLSL(0.2, "u_ambientIntensity");

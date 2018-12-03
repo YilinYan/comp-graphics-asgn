@@ -21,7 +21,7 @@ function main() {
   gl.enable(gl.DEPTH_TEST)
   useShader(gl, shader_phong)
 
-  var geometry = new ColoredCube(0.5, [i*2, -1, j*2],
+  var geometry = new ColoredCube(0.5, [i*2, -2, j*2],
     [Math.random(), Math.random(), Math.random(), 1])
   scene = new Scene()
   camera = Camera(geometry)
