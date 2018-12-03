@@ -20,6 +20,8 @@ function main() {
   shader_phong = createShader(gl, VSHADER_PHONG, FSHADER_PHONG)
   gl.enable(gl.DEPTH_TEST)
   useShader(gl, shader_phong)
+  gl.enable (gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
   var geometry = new ColoredCube(0.5, [i*2, -2, j*2],
     [Math.random(), Math.random(), Math.random(), 1])
@@ -29,10 +31,20 @@ function main() {
 
   for(var i = -2; i < 5; ++i)
     for(var j = -2; j < 5; ++j) {
-      scene.addGeometry(new ColoredCube(0.5, [i, -1, j],
-        [Math.random(), Math.random(), Math.random(), 1],
-        Math.random() * 30))
+      var color = [Math.random(), Math.random(), Math.random(), 1]
+      var rotation = Math.random() * 30
+      var geometry1 = new ColoredCube(0.5, [i, -1, j],
+        color, rotation)
+      var geometry2 = new ColoredCube(0.5, [i, -1.5, j],
+        color, rotation)
+      geometry2.ks = geometry1.ks
+      geometry2.kd = geometry1.kd
+      geometry2.spower = geometry1.spower
+      scene.addGeometry(geometry1)
+      scene.addGeometry(geometry2)
     }
+
+    scene.addGeometry(new Plane([-4, -1, -4], 20, [0.1, 0.1, 0.15, 0.2]))
 
   tick()
 }

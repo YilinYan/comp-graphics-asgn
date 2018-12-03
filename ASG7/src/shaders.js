@@ -4,11 +4,8 @@ varying vec3   v_normal;
 varying vec3   v_ambientColor;
 varying float  v_ambientIntensity;
 varying vec3   v_diffuseColor;
-varying vec3   v_diffuseNormal;
 varying float  v_diffuseIntensity;
 varying float  v_normalShading;
-varying vec3   v_reflect;
-varying vec3   v_view;
 varying float  v_specularIntensity;
 varying float  v_toonShading;
 varying vec4   v_color;
@@ -25,7 +22,6 @@ uniform mat4   u_projMatrix;
 uniform vec3   u_ambientColor;
 uniform float  u_ambientIntensity;
 uniform vec3   u_diffuseColor;
-uniform vec3   u_diffuseNormal;
 uniform float  u_diffuseIntensity;
 uniform float  u_normalShading;
 uniform float  u_specularIntensity;
@@ -45,12 +41,8 @@ void main() {
    v_ambientColor = u_ambientColor;
    v_ambientIntensity = u_ambientIntensity;
    v_diffuseColor = u_diffuseColor;
-   v_diffuseNormal = normalize(u_diffuseNormal);
    v_diffuseIntensity = u_diffuseIntensity;
    v_normalShading = u_normalShading;
-
-   v_reflect = reflect(v_diffuseNormal, v_normal);
-   v_view = normalize(u_cameraPosition - (transMatrix * position).xyz);
 
    v_specularIntensity = u_specularIntensity;
    v_toonShading = u_toonShading;
@@ -65,11 +57,8 @@ varying vec3   v_normal;
 varying vec3   v_ambientColor;
 varying float  v_ambientIntensity;
 varying vec3   v_diffuseColor;
-varying vec3   v_diffuseNormal;
 varying float  v_diffuseIntensity;
 varying float  v_normalShading;
-varying vec3   v_reflect;
-varying vec3   v_view;
 varying float  v_specularIntensity;
 varying float  v_toonShading;
 varying vec4   v_color;
@@ -82,22 +71,20 @@ void main() {
 
    vec3 reflect_v = reflect(v_position - v_lightPos, v_normal);
    vec3 view_v = v_cameraPosition - v_position;
+   float distance = length(v_lightPos - v_position);
+   distance *= distance / 4.0;
   
    float specular = max(0.0, dot(normalize(reflect_v), normalize(view_v)))
                      * step(0.0, dot(v_lightPos - v_position, v_normal));
-   vec3 light = //v_ambientColor * v_ambientIntensity
-   + v_diffuseColor * pow(specular, v_spower) * v_specularIntensity;
-   
-/*
-   float specular = smoothstep(0.4, 1.0, max(0.0, dot(v_reflect, v_view)));
-   float specular = max(0.0, dot(v_reflect, v_view));
    vec3 light = v_ambientColor * v_ambientIntensity
-   + v_diffuseColor * max(0.0, dot(-v_diffuseNormal, v_normal)) * v_diffuseIntensity
-   + v_diffuseColor * pow(specular, v_spower) * v_specularIntensity;
-*/
+   + v_diffuseColor * pow(specular, v_spower) * v_specularIntensity / distance
+   + v_diffuseColor * max(0.0, dot(
+      normalize(v_lightPos - v_position), v_normal)) * v_diffuseIntensity / distance
+      ;
+   
    vec4 toonColor = v_color;
    float toon = v_ambientIntensity
-   + max(0.0, dot(-v_diffuseNormal, v_normal)) * v_diffuseIntensity
+   + max(0.0, dot(normalize(v_lightPos - v_position), v_normal)) * v_diffuseIntensity
    + pow(specular, v_spower) * v_specularIntensity;
    toon = floor(toon * 2.) / 2. + 0.2;
 

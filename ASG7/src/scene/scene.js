@@ -56,19 +56,14 @@ class Scene {
    * Renders all the Geometry within the scene.
    */
     render() {
-        var delta = (Date.now() - this.lastTime) / 100.
- //       this.diffuseMatrix.rotate (delta, 1, 0, -1);
-        var diffuse = this.diffuseMatrix.multiplyVector3(new Vector3([0.0, 1.0, 0.0]));
-//        var diffuse = this.diffuseMatrix.multiplyVector3(new Vector3([-1.0, 0.0, 0.0]));
         this.lastTime = Date.now();
 
-        sendUniformVec4ToGLSL([4, 1, 4], "u_lightPos");
+        sendUniformVec4ToGLSL([4, 2, 5], "u_lightPos");
         sendUniformMatToGLSL (camera.view.elements, "u_viewMatrix")
         sendUniformMatToGLSL (camera.proj.elements, "u_projMatrix")
-        sendUniformFloatToGLSL(0.2, "u_ambientIntensity");
-        sendUniformVec4ToGLSL([0.9, 0.9, 1.0], "u_ambientColor");
-        sendUniformVec4ToGLSL([1.0, 1.0, 0.95], "u_diffuseColor");
-        sendUniformVec4ToGLSL(diffuse.elements, "u_diffuseNormal");
+        sendUniformFloatToGLSL(0.04, "u_ambientIntensity");
+        sendUniformVec4ToGLSL([1.0, 1.0, 1.0], "u_ambientColor");
+        sendUniformVec4ToGLSL([1.0, 1.0, 0.9], "u_diffuseColor");
         sendUniformFloatToGLSL(this.normalShading, "u_normalShading");
         sendUniformFloatToGLSL(this.toonShading, "u_toonShading");
         sendUniformVec4ToGLSL (camera.from.elements, "u_cameraPosition");

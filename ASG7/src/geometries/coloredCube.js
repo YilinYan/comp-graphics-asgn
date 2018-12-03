@@ -19,9 +19,9 @@ class ColoredCube extends TiltedCube {
     this.modelMatrix.translate(center[0], center[1], center[2])
     this.modelMatrix.rotate(rotation, 0, 1, 0)
     this.modelMatrix.scale(size, size, size)
-    this.ks = 1
-    this.kd = 1
-    this.spower = Math.random() * 32
+    this.ks = Math.random() + 1
+    this.kd = Math.random() + 1
+    this.spower = Math.random() * 32 + 5
 
     this.generateUVCoordinates()
     this.points = this.getPoints()
