@@ -2,9 +2,9 @@
 var Camera = (character) => {
   var view        = new Matrix4()
   var proj        = new Matrix4()
-  var from        = new Vector3()
-  var to          = new Vector3()
-  var up          = new Vector3()
+  var from        = new Vector3([0, 1, 0])
+  var to          = new Vector3([0.6, 1.8, 0])
+  var up          = new Vector3([0, 1, 0])
   var speed       = 0.1 * worldSize;
   var rotateSpeed = 0.5;
   var lastMouse;
@@ -15,9 +15,7 @@ var Camera = (character) => {
   var viewType = "Perspective";
   var geometry = character || null;
 
-  setLookAt([0 * worldSize, 0 * worldSize, 0 * worldSize], 
-            [0.6 * worldSize, 0.8 * worldSize, 0 * worldSize], 
-            [0, 1, 0]);
+  setLookAt(from.elements, to.elements, up.elements);
   setPerspective(fov, ratio, near, far);
   init();
 
@@ -100,10 +98,11 @@ var Camera = (character) => {
           var step = getStep[ev.key](from, to);
           step.elements[1] = 0;
           step = step.normalize().scale(speed);
-
+          
           var A = from.minus(step);
           var B = to.minus(step);
           setLookAt(A.elements, B.elements, up.elements);
+          
           break;
         case 'n':
           scene.normalShading = 1.0;
@@ -140,6 +139,6 @@ var Camera = (character) => {
   }
 
   return {
-    view, proj, setLookAt, setPerspective, from
+    view, proj, setLookAt, setPerspective, from, to, up
   }
 }

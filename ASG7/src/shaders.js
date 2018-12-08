@@ -13,6 +13,8 @@ varying float  v_spower;
 varying vec3   v_lightPos;
 varying vec3   v_position;
 varying vec3   v_cameraPosition;
+varying vec4   v_fogColor;
+varying float  v_click;
 
 attribute vec4 position;
 attribute vec3 a_normal;
@@ -30,6 +32,8 @@ uniform float  u_toonShading;
 uniform vec4   u_color;
 uniform float  u_spower;
 uniform vec3   u_lightPos;
+uniform vec4   u_fogColor;
+uniform float  u_click;
 void main() {
    gl_Position = u_projMatrix * u_viewMatrix * transMatrix * position;
    vec3 a = (transMatrix * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
@@ -49,6 +53,9 @@ void main() {
    v_color = u_color;
    v_spower = u_spower;
    v_lightPos = u_lightPos;
+   v_fogColor = u_fogColor;
+
+   v_click = u_click;
 }`
 
 var FSHADER_PHONG =`
@@ -58,6 +65,7 @@ varying vec3   v_ambientColor;
 varying float  v_ambientIntensity;
 varying vec3   v_diffuseColor;
 varying float  v_diffuseIntensity;
+
 varying float  v_normalShading;
 varying float  v_specularIntensity;
 varying float  v_toonShading;
@@ -66,13 +74,20 @@ varying float  v_spower;
 varying vec3   v_lightPos;
 varying vec3   v_position;
 varying vec3   v_cameraPosition;
+varying vec4   v_fogColor;
+varying float  v_click;
 void main() {
-   vec4 color = v_color;
+   vec3 color = v_color.xyz;
+
+   if(v_click > 0.0) {
+      gl_FragColor = vec4(color, 1.0);
+      return;
+   }
 
    vec3 reflect_v = reflect(v_position - v_lightPos, v_normal);
    vec3 view_v = v_cameraPosition - v_position;
    float distance = length(v_lightPos - v_position);
-   distance *= distance / 4.0;
+  // distance *= distance / 4.0;
   
    float specular = max(0.0, dot(normalize(reflect_v), normalize(view_v)))
                      * step(0.0, dot(v_lightPos - v_position, v_normal));
@@ -88,7 +103,18 @@ void main() {
    + pow(specular, v_spower) * v_specularIntensity;
    toon = floor(toon * 2.) / 2. + 0.2;
 
-   color = color * vec4(light, 1.0);
+   color = color * light;
    toonColor = toonColor * vec4(vec3(toon), 1.0);
-   gl_FragColor = mix(mix(color, vec4(v_normal, 1.0), v_normalShading), toonColor, v_toonShading);
+
+   color = mix(color, v_normal, v_normalShading);
+   color = mix(color, toonColor.xyz, v_toonShading);
+
+   float Distance = length(v_position - v_cameraPosition);
+   float kf = smoothstep(2.0, 20.0, Distance);
+   kf = sqrt(kf);
+   kf = sqrt(kf);
+   kf = smoothstep(0.0, 1.0, kf);
+   color = mix(color, v_fogColor.xyz, kf);
+
+   gl_FragColor = vec4(color, v_color.w);
 }`

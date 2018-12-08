@@ -21,7 +21,7 @@ class Plane extends Geometry {
 
       this.modelMatrix.translate(center[0], center[1], center[2])
       this.modelMatrix.scale(size, size, size)
-      this.ks = 30
+      this.ks = 10
       this.kd = 1
       this.spower = 10
   }
@@ -64,9 +64,11 @@ class Plane extends Geometry {
     }
 
     render() {
+        /*
         sendUniformFloatToGLSL(this.kd, "u_diffuseIntensity");
         sendUniformFloatToGLSL(this.ks, "u_specularIntensity");
         sendUniformFloatToGLSL(this.spower, "u_spower");
+        */
         sendUniformVec4ToGLSL (this.color, "u_color")
         sendUniformMatToGLSL (this.modelMatrix.elements, "transMatrix")
         tellGLSLToDrawCurrentBuffer (this.vertices.length)

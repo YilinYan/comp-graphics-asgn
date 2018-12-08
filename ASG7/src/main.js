@@ -8,6 +8,7 @@ var DEBUG_FLAG_CUBE = false
 var DEBUG_VERTEX = false
 var worldSize = 1
 
+
 function main() {
   canvas = document.getElementsByTagName("canvas")[0]
   canvas.width = window.innerWidth;
@@ -18,35 +19,59 @@ function main() {
   }
 
   shader_phong = createShader(gl, VSHADER_PHONG, FSHADER_PHONG)
+  gl.clearColor(1, 1, 1, 1);
   gl.enable(gl.DEPTH_TEST)
+  gl.enable (gl.BLEND)
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
   useShader(gl, shader_phong)
-  gl.enable (gl.BLEND);
-  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-  var geometry = new ColoredCube(0.5, [i*2, -2, j*2],
-    [Math.random(), Math.random(), Math.random(), 1])
+//  var geometry = new ColoredCube(0.5, [i*2, -2, j*2],
+//    [Math.random(), Math.random(), Math.random(), 1])
   scene = new Scene()
-  camera = Camera(geometry)
-  scene.addGeometry(geometry)
+  camera = Camera(null)  
+//  scene.addGeometry(geometry)
 
-  for(var i = -2; i < 5; ++i)
-    for(var j = -2; j < 5; ++j) {
-      var color = [Math.random(), Math.random(), Math.random(), 1]
+  canvas.onclick = (ev) => { 
+    scene.onclick = 1;
+    var x = ev.clientX, y = ev.clientY;
+    var rect = ev.target.getBoundingClientRect();
+   // if (rect.left <= x && x < rect.right && rect.top <= y && y < rect.bottom) {
+    // Check if it is on object
+    scene.x = x - rect.left;
+    scene.y = rect.bottom - y;
+  };
+  
+  for(var i = -10; i < 0; ++i)
+    for(var j = -10; j < 0; ++j) {
+      var distance =  (Math.abs(i) * Math.abs(j) / 100) * 0.1 + 0.1;
+      var rand = Math.random();
+      if(rand > distance) continue;
+
+      var color = rand_color()
       var rotation = Math.random() * 30
-      var geometry1 = new ColoredCube(0.5, [i, -1, j],
+      var size = Math.random()
+      var height = Math.random() + size;
+
+      var geometry1 = new ColoredCube(size , [i, height - size/2, j],
         color, rotation)
-      var geometry2 = new ColoredCube(0.5, [i, -1.5, j],
-        color, rotation)
+      var geometry2 = new ColoredCube(size , [i, -height - size/2, j],
+        [color[0], color[1], color[2], 1], rotation)
       geometry2.ks = geometry1.ks
       geometry2.kd = geometry1.kd
       geometry2.spower = geometry1.spower
       scene.addGeometry(geometry1)
       scene.addGeometry(geometry2)
     }
-
-    scene.addGeometry(new Plane([-4, -1, -4], 20, [0.1, 0.1, 0.15, 0.2]))
-
+    scene.addGeometry(new Plane([-20, 0, -20], 40, [0.1, 0.1, 0.1, 0.8]))
+   
   tick()
+}
+
+function rand_color() {
+  var a = Math.random() * 0.3 + 0.7;
+  var b = Math.random()* 0.3 + 0.7;
+  var c = Math.random()* 0.3 + 0.7;
+  return [a, b, c, 1]
 }
 
 function tick() {

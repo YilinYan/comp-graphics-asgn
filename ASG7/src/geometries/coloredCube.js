@@ -14,14 +14,20 @@ class ColoredCube extends TiltedCube {
 
   constructor(size, center, color, rotation = 0) {
     super(size, color)
-    
     this.size = size
+    this.realColor = color;
+    this.startTime = Date.now();
+    this.offset = Math.random() * 10000;
+    this.blink = -1;
+  
     this.modelMatrix.translate(center[0], center[1], center[2])
-    this.modelMatrix.rotate(rotation, 0, 1, 0)
     this.modelMatrix.scale(size, size, size)
+    this.modelMatrix.rotate(rotation, 0, 1, 0)
+
     this.ks = Math.random() + 1
     this.kd = Math.random() + 1
     this.spower = Math.random() * 32 + 5
+    this.center = center;
 
     this.generateUVCoordinates()
     this.points = this.getPoints()
@@ -71,12 +77,43 @@ class ColoredCube extends TiltedCube {
   }
 
   render() {
-    sendUniformFloatToGLSL(this.kd, "u_diffuseIntensity");
-    sendUniformFloatToGLSL(this.ks, "u_specularIntensity");
-    sendUniformFloatToGLSL(this.spower, "u_spower");
+  //  sendUniformFloatToGLSL(this.kd, "u_diffuseIntensity");
+  //  sendUniformFloatToGLSL(this.ks, "u_specularIntensity");
+  //  sendUniformFloatToGLSL(this.spower, "u_spower");
     sendUniformVec4ToGLSL (this.color, "u_color")
     sendUniformMatToGLSL (this.modelMatrix.elements, "transMatrix")
-    tellGLSLToDrawCurrentBuffer (this.vertices.length)
+    gl.drawArrays (gl.TRIANGLES, 0, this.vertices.length)
   }
 
+  updateAnimation() {
+    if(this.spinning)
+      this.modelMatrix.rotate(1, this.spinning, this.spinning, this.spinning);
+
+    if(this.orbiting)
+      this.modelMatrix = new Matrix4().setRotate(this.orbiting, 0, 1, 0)
+      .concat(this.modelMatrix);
+
+    if(this.blinking > 0) {
+      var k = Math.sin(this.blinking) * 0.5 + 0.5;
+      console.log(this.realColor, k);
+      this.color = [this.realColor[0] + k * (1 - this.realColor[0]),
+                    this.realColor[1] + k * (1 - this.realColor[1]),
+                    this.realColor[2] + k * (1 - this.realColor[2]), 1]
+      this.blinking -= 0.04;
+    }
+    /*
+    var time = Date.now() + this.offset;
+    var k = Math.sin((time - this.startTime) / 1000);
+    if(k < 0) { this.blink = -1; return; }
+    if(this.blink == -1) {
+      this.blink = Math.random();
+    }
+  //  if(this.blink > 0.8) { this.color = this.realColor; return; }
+
+    k = k;
+    k = Math.sqrt(k);
+    k = (Math.sqrt(k)) + 1;
+    this.color = [this.realColor[0] * k, this.realColor[1] * k, this.realColor[2] * k, this.realColor[3]];
+  */
+  }
 }
