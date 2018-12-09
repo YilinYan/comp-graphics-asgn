@@ -44,6 +44,8 @@ class ColoredCube extends TiltedCube {
       this.kbink[0] = 0;
     else if(this.color[1] <= this.color[0] && this.color[1] <= this.color[2])
       this.kbink[1] = 0;
+
+    this.length = this.vertices.length;
     }
 
   generateUVCoordinates() {
@@ -93,7 +95,7 @@ class ColoredCube extends TiltedCube {
   //  sendUniformFloatToGLSL(this.spower, "u_spower");
     sendUniformVec4ToGLSL (this.color, "u_color")
     sendUniformMatToGLSL (this.modelMatrix.elements, "transMatrix")
-    gl.drawArrays (gl.TRIANGLES, 0, this.vertices.length)
+    gl.drawArrays (gl.TRIANGLES, 0, this.length)
   }
 
   updateAnimation() {
@@ -113,12 +115,12 @@ class ColoredCube extends TiltedCube {
                     this.realColor[2] + k * this.kbink[2], 1]
       this.blinking -= 0.04;
       */
-     var k = Math.sin(this.blinking) + 2;
-     console.log(this.realColor, k);
-     this.color = [this.realColor[0] * (this.kbink[0] ? k : 1),
-                   this.realColor[1] * (this.kbink[1] ? k : 1),
-                   this.realColor[2] * (this.kbink[2] ? k : 1), 1]
-     this.blinking -= 0.04;
+      var k = Math.sin(this.blinking) + 2;
+      console.log(this.realColor, k);
+      this.color = [this.realColor[0] * (this.kbink[0] ? k : 1),
+                    this.realColor[1] * (this.kbink[1] ? k : 1),
+                    this.realColor[2] * (this.kbink[2] ? k : 1), 1]
+      this.blinking -= 0.04;
     }
     /*
     var time = Date.now() + this.offset;

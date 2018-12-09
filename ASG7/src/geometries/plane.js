@@ -24,6 +24,8 @@ class Plane extends Geometry {
       this.ks = 10
       this.kd = 1
       this.spower = 10
+
+      this.length = this.vertices.length;
   }
 
   /**
@@ -71,7 +73,7 @@ class Plane extends Geometry {
         */
         sendUniformVec4ToGLSL (this.color, "u_color")
         sendUniformMatToGLSL (this.modelMatrix.elements, "transMatrix")
-        tellGLSLToDrawCurrentBuffer (this.vertices.length)
+        tellGLSLToDrawCurrentBuffer (this.length)
     }
     
 }

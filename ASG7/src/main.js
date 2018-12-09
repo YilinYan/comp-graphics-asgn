@@ -40,15 +40,15 @@ function main() {
     scene.y = rect.bottom - y;
   };
   
-  for(var i = -10; i < 10; ++i)
-    for(var j = -10; j < 10; ++j) {
-      var distance =  (Math.abs(i) * Math.abs(j) / 100) * 0.1 + 0.07;
+  for(var i = -9; i < 10; ++i)
+    for(var j = -9; j < 10; ++j) {
+      var distance =  (Math.abs(i) * Math.abs(j) / 100) * 0.1 + 0.1;
       var rand = Math.random();
       if(rand > distance) continue;
 
       var color = rand_color()
       var rotation = Math.random() * 30
-      var size = Math.random() * (Math.abs(i) + Math.abs(j)) / 10
+      var size = Math.random() * (Math.abs(i) + Math.abs(j)) / 10 + 0.1
       var height = Math.random() * Math.round(size * 5) + size;
 
       var geometry1 = new ColoredCube(size , [i, height - size/2, j],
