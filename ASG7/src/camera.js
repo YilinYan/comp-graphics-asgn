@@ -45,6 +45,7 @@ var Camera = (character) => {
   }
 
   function init(){
+    /*
     var slider_near = document.getElementById("slider-near");
     slider_near.onchange = (ev) => { 
       near = +ev.target.value;
@@ -69,7 +70,7 @@ var Camera = (character) => {
       }
       setPerspective(fov, ratio, near, far)
     }
-
+*/
     canvas.onwheel = (ev) => {
       fov += ev.wheelDelta / 10;
       if(fov > 100) fov = 100;

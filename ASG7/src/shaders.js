@@ -110,7 +110,7 @@ void main() {
    color = mix(color, toonColor.xyz, v_toonShading);
 
    float Distance = length(v_position - v_cameraPosition);
-   float kf = smoothstep(2.0, 20.0, Distance);
+   float kf = smoothstep(2.0, 25.0, Distance);
    kf = sqrt(kf);
    kf = sqrt(kf);
    kf = smoothstep(0.0, 1.0, kf);

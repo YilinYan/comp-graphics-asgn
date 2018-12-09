@@ -33,7 +33,18 @@ class ColoredCube extends TiltedCube {
     this.points = this.getPoints()
     this.uvs = this.getUvs()
     this.normals = this.getNormals()
-  }
+/*
+    this.kbink = [
+      Math.sqrt(Math.sqrt(Math.sqrt(this.realColor[0])) - this.realColor[0]),
+      Math.sqrt(Math.sqrt(Math.sqrt(this.realColor[1])) - this.realColor[1]),
+      Math.sqrt(Math.sqrt(Math.sqrt(this.realColor[2])) - this.realColor[2])]
+*/
+    this.kbink = [1, 1, 1]
+    if(this.color[0] <= this.color[1] && this.color[0] <= this.color[2])
+      this.kbink[0] = 0;
+    else if(this.color[1] <= this.color[0] && this.color[1] <= this.color[2])
+      this.kbink[1] = 0;
+    }
 
   generateUVCoordinates() {
     var UV = [[0, 0], [0, 1], [1, 1], [0, 0], [1, 1], [1, 0]]
@@ -86,20 +97,28 @@ class ColoredCube extends TiltedCube {
   }
 
   updateAnimation() {
+    if(this.orbiting)
+    this.modelMatrix = new Matrix4().setRotate(this.orbiting, 0, 1, 0)
+    .concat(this.modelMatrix);
+
     if(this.spinning)
       this.modelMatrix.rotate(1, this.spinning, this.spinning, this.spinning);
 
-    if(this.orbiting)
-      this.modelMatrix = new Matrix4().setRotate(this.orbiting, 0, 1, 0)
-      .concat(this.modelMatrix);
-
     if(this.blinking > 0) {
+      /*
       var k = Math.sin(this.blinking) * 0.5 + 0.5;
       console.log(this.realColor, k);
-      this.color = [this.realColor[0] + k * (1 - this.realColor[0]),
-                    this.realColor[1] + k * (1 - this.realColor[1]),
-                    this.realColor[2] + k * (1 - this.realColor[2]), 1]
+      this.color = [this.realColor[0] + k * this.kbink[0],
+                    this.realColor[1] + k * this.kbink[1],
+                    this.realColor[2] + k * this.kbink[2], 1]
       this.blinking -= 0.04;
+      */
+     var k = Math.sin(this.blinking) + 2;
+     console.log(this.realColor, k);
+     this.color = [this.realColor[0] * (this.kbink[0] ? k : 1),
+                   this.realColor[1] * (this.kbink[1] ? k : 1),
+                   this.realColor[2] * (this.kbink[2] ? k : 1), 1]
+     this.blinking -= 0.04;
     }
     /*
     var time = Date.now() + this.offset;

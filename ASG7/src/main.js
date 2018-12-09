@@ -8,7 +8,6 @@ var DEBUG_FLAG_CUBE = false
 var DEBUG_VERTEX = false
 var worldSize = 1
 
-
 function main() {
   canvas = document.getElementsByTagName("canvas")[0]
   canvas.width = window.innerWidth;
@@ -41,16 +40,16 @@ function main() {
     scene.y = rect.bottom - y;
   };
   
-  for(var i = -10; i < 0; ++i)
-    for(var j = -10; j < 0; ++j) {
-      var distance =  (Math.abs(i) * Math.abs(j) / 100) * 0.1 + 0.1;
+  for(var i = -10; i < 10; ++i)
+    for(var j = -10; j < 10; ++j) {
+      var distance =  (Math.abs(i) * Math.abs(j) / 100) * 0.1 + 0.07;
       var rand = Math.random();
       if(rand > distance) continue;
 
       var color = rand_color()
       var rotation = Math.random() * 30
-      var size = Math.random()
-      var height = Math.random() + size;
+      var size = Math.random() * (Math.abs(i) + Math.abs(j)) / 10
+      var height = Math.random() * Math.round(size * 5) + size;
 
       var geometry1 = new ColoredCube(size , [i, height - size/2, j],
         color, rotation)
@@ -68,9 +67,9 @@ function main() {
 }
 
 function rand_color() {
-  var a = Math.random() * 0.3 + 0.7;
-  var b = Math.random()* 0.3 + 0.7;
-  var c = Math.random()* 0.3 + 0.7;
+  var a = Math.random() * 0.5 + 0.15;
+  var b = Math.random() * 0.5 + 0.1;
+  var c = Math.random() * 0.5 + 0.2;
   return [a, b, c, 1]
 }
 

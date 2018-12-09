@@ -35,7 +35,7 @@ class Scene {
       }
 
       sendUniformVec4ToGLSL([0, 1, 0], "u_lightPos");
-      sendUniformFloatToGLSL(0.4, "u_ambientIntensity");
+      sendUniformFloatToGLSL(0.6, "u_ambientIntensity");
 
       sendUniformFloatToGLSL(0.6, "u_diffuseIntensity");
       sendUniformFloatToGLSL(1, "u_specularIntensity");
@@ -140,7 +140,6 @@ class Scene {
                         else if(!geometry.orbiting)
                             geometry.orbiting = orbit / (
                                 Math.abs(geometry.center[0]) +
-                                Math.abs(geometry.center[1]) +
                                 Math.abs(geometry.center[2])
                             );
                         else
