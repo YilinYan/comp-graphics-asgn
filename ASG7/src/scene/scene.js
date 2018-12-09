@@ -25,13 +25,21 @@ class Scene {
     this.onclick = 0;
     this.x = 0;
     this.y = 0;
+    this.freeze = 0;
     
     this.init();
   }
 
   init() {
-      document.getElementById("toon").onmousedown = () => {
-          this.toonShading = 1.0;
+      document.getElementById("freeze").onmousedown = () => {
+          if(this.freeze == 0) {
+                sendTextToHTML("Start!", "freeze");
+                this.freeze = 1;
+          }
+          else {
+                sendTextToHTML("Freeze!", "freeze");
+                this.freeze = 0;
+          }
       }
 
       sendUniformVec4ToGLSL([0, 1, 0], "u_lightPos");
@@ -67,6 +75,7 @@ class Scene {
    * Updates the animation for each geometry in geometries.
    */
   updateAnimation() {
+      if(this.freeze) return;
       this.geometries.forEach (function (geometry) {
           geometry.updateAnimation() });
   }
@@ -152,8 +161,8 @@ class Scene {
             gl.bindFramebuffer(gl.FRAMEBUFFER, null);
         }
 
+        var freeze = this.freeze;
         this.geometries.forEach (function (geometry) {
-            geometry.updateAnimation();
             if(lastPoins != geometry.points) {
                 sendAttributeBufferToGLSL (geometry.points, geometry.vertices.length, "position");
                 lastPoins = geometry.points;  

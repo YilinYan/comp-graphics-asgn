@@ -99,8 +99,9 @@ void main() {
    
    vec4 toonColor = v_color;
    float toon = v_ambientIntensity
-   + max(0.0, dot(normalize(v_lightPos - v_position), v_normal)) * v_diffuseIntensity
-   + pow(specular, v_spower) * v_specularIntensity;
+   + pow(specular, v_spower) * v_specularIntensity / distance
+   + max(0.0, dot(normalize(v_lightPos - v_position), v_normal)) * v_diffuseIntensity / distance
+   ;
    toon = floor(toon * 2.) / 2. + 0.2;
 
    color = color * light;

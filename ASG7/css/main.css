@@ -20,10 +20,13 @@ button#view {
     top: 50px;
     left: 10px;
 }
-button#toon {
-    background-color: rgb(228, 226, 108);
+button#freeze {
+    background-color: rgb(180, 180, 180);
+    font-size: 15pt;
     position: absolute;
     top: 30px;
     left: 100%;
-    margin-left: -100px;
+    margin-left: -150px;
+    width: 100px;
+    height: 30px;
 }

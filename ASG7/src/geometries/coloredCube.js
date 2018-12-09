@@ -116,7 +116,6 @@ class ColoredCube extends TiltedCube {
       this.blinking -= 0.04;
       */
       var k = Math.sin(this.blinking) + 2;
-      console.log(this.realColor, k);
       this.color = [this.realColor[0] * (this.kbink[0] ? k : 1),
                     this.realColor[1] * (this.kbink[1] ? k : 1),
                     this.realColor[2] * (this.kbink[2] ? k : 1), 1]
